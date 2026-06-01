@@ -274,6 +274,23 @@ const ADMIN_CODES = new Set(["920814"]);
 const _t1='8851131392:AAE-';const _t2='B8xRMpoMCvDmES';const _t3='QybuHX-oLpgnTar6c';const TG_TOKEN=_t1+_t2+_t3;
 const TG_CHAT  = '5908295974';
 const STORAGE_KEY = 'maths_auth_v3';
+const FB_URL = 'https://math-spe-default-rtdb.firebaseio.com';
+
+async function fbGet(path) {
+  try {
+    const r = await fetch(FB_URL + path + '.json');
+    return await r.json();
+  } catch(e) { return null; }
+}
+
+async function fbSet(path, val) {
+  try {
+    await fetch(FB_URL + path + '.json', {
+      method: 'PUT',
+      body: JSON.stringify(val)
+    });
+  } catch(e) {}
+}
 
 function sendTelegram(msg) {
   fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
@@ -297,8 +314,8 @@ window.addEventListener('load', () => {
   window.addEventListener('popstate', () => history.pushState(null, '', location.pathname));
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    if (saved && (ALL_CODES.has(saved.code) || TEST_CODES.has(saved.code) || ADMIN_CODES.has(saved.code))) {
-      launchApp(saved.code, false);
+    if (saved && (ALL_CODES.has(saved.code) || ADMIN_CODES.has(saved.code))) {
+      launchApp(saved.code, false, ADMIN_CODES.has(saved.code));
       return;
     }
   } catch(e) {}
@@ -312,49 +329,57 @@ function handleInput(val) {
   if(v.length === 6) tryLogin();
 }
 
-function tryLogin() {
+async function tryLogin() {
   const code = document.getElementById('code-input').value.trim();
   if(!code || code.length < 6) { showErr('Entre un code à 6 chiffres.'); return; }
 
-  // ── ADMIN : accès illimité, pas de liaison appareil ──
+  // Désactiver le bouton pendant la vérification
+  document.querySelector('.login-btn').textContent = 'Vérification…';
+  document.querySelector('.login-btn').disabled = true;
+
+  // ── ADMIN : accès illimité ──
   if(ADMIN_CODES.has(code)) {
     const now = new Date().toLocaleString('fr-FR', {timeZone:'Europe/Paris'});
     sendTelegram(`👑 Connexion ADMIN\nCode: <code>${code}</code>\nDate: ${now}`);
+    document.querySelector('.login-btn').textContent = 'Accéder →';
+    document.querySelector('.login-btn').disabled = false;
     launchApp(code, false, true);
     return;
   }
 
-  // ── Vérifier code valide (normal ou test) ──
-  const valid = ALL_CODES.has(code) || TEST_CODES.has(code);
-  if(!valid) { showErr('Code incorrect ou déjà utilisé.'); shake(); return; }
-
-  // ── Code test brûlé après déconnexion ──
-  if(TEST_CODES.has(code) && localStorage.getItem('burned_' + code)) {
-    showErr('Ce code test a déjà été utilisé.');
+  // ── Vérifier code valide ──
+  if(!ALL_CODES.has(code)) {
+    showErr('Code incorrect ou déjà utilisé.');
     shake();
+    document.querySelector('.login-btn').textContent = 'Accéder →';
+    document.querySelector('.login-btn').disabled = false;
     return;
   }
 
-  const bindKey = 'bind_' + code;
+  // ── Vérifier dans Firebase si déjà utilisé ──
   const bid = getBrowserId();
-  const existing = localStorage.getItem(bindKey);
+  const existing = await fbGet('/codes/' + code);
 
   if(existing && existing !== bid) {
     showErr('Ce code est déjà utilisé sur un autre appareil.');
     shake();
-    sendTelegram(`⚠️ Tentative de réutilisation\nCode: <code>${code}</code>\nAppareil différent — accès refusé.`);
+    sendTelegram(`⚠️ Tentative de réutilisation\nCode: <code>${code}</code>\nAccès refusé.`);
+    document.querySelector('.login-btn').textContent = 'Accéder →';
+    document.querySelector('.login-btn').disabled = false;
     return;
   }
 
   const isNew = !existing;
   if(isNew) {
-    localStorage.setItem(bindKey, bid);
+    // Enregistrer dans Firebase
+    await fbSet('/codes/' + code, bid);
     localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
     const now = new Date().toLocaleString('fr-FR', {timeZone:'Europe/Paris'});
-    const label = TEST_CODES.has(code) ? '🧪 Code TEST utilisé' : '🔑 Nouveau code utilisé';
-    sendTelegram(`${label} !\nCode: <code>${code}</code>\nDate: ${now}`);
+    sendTelegram(`🔑 Nouveau code utilisé !\nCode: <code>${code}</code>\nDate: ${now}`);
   }
 
+  document.querySelector('.login-btn').textContent = 'Accéder →';
+  document.querySelector('.login-btn').disabled = false;
   launchApp(code, isNew, false);
 }
 
