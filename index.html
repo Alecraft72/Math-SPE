@@ -1175,22 +1175,19 @@ const ADMIN_CODES = new Set(["920814"]);
 const _t1='8851131392:AAE-';const _t2='B8xRMpoMCvDmES';const _t3='QybuHX-oLpgnTar6c';const TG_TOKEN=_t1+_t2+_t3;
 const TG_CHAT  = '5908295974';
 const STORAGE_KEY = 'maths_auth_v3';
-const FB_URL = 'https://math-spe-default-rtdb.firebaseio.com';
+const BACKEND_URL = 'https://maths-backend.vercel.app/api/check';
 
-async function fbGet(path) {
+async function checkCode(code, browserId) {
   try {
-    const r = await fetch(FB_URL + path + '.json');
-    return await r.json();
-  } catch(e) { return null; }
-}
-
-async function fbSet(path, val) {
-  try {
-    await fetch(FB_URL + path + '.json', {
-      method: 'PUT',
-      body: JSON.stringify(val)
+    const r = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({code, browserId})
     });
-  } catch(e) {}
+    return await r.json();
+  } catch(e) {
+    return {success: false, reason: 'network'};
+  }
 }
 
 function sendTelegram(msg) {
@@ -1234,54 +1231,28 @@ async function tryLogin() {
   const code = document.getElementById('code-input').value.trim();
   if(!code || code.length < 6) { showErr('Entre un code à 6 chiffres.'); return; }
 
-  // Désactiver le bouton pendant la vérification
   document.querySelector('.login-btn').textContent = 'Vérification…';
   document.querySelector('.login-btn').disabled = true;
 
-  // ── ADMIN : accès illimité ──
-  if(ADMIN_CODES.has(code)) {
-    const now = new Date().toLocaleString('fr-FR', {timeZone:'Europe/Paris'});
-    sendTelegram(`👑 Connexion ADMIN\nCode: <code>${code}</code>\nDate: ${now}`);
-    document.querySelector('.login-btn').textContent = 'Accéder →';
-    document.querySelector('.login-btn').disabled = false;
-    launchApp(code, false, true);
-    return;
-  }
-
-  // ── Vérifier code valide ──
-  if(!ALL_CODES.has(code)) {
-    showErr('Code incorrect ou déjà utilisé.');
-    shake();
-    document.querySelector('.login-btn').textContent = 'Accéder →';
-    document.querySelector('.login-btn').disabled = false;
-    return;
-  }
-
-  // ── Vérifier dans Firebase si déjà utilisé ──
   const bid = getBrowserId();
-  const existing = await fbGet('/codes/' + code);
-
-  if(existing && existing !== bid) {
-    showErr('Ce code est déjà utilisé sur un autre appareil.');
-    shake();
-    sendTelegram(`⚠️ Tentative de réutilisation\nCode: <code>${code}</code>\nAccès refusé.`);
-    document.querySelector('.login-btn').textContent = 'Accéder →';
-    document.querySelector('.login-btn').disabled = false;
-    return;
-  }
-
-  const isNew = !existing;
-  if(isNew) {
-    // Enregistrer dans Firebase
-    await fbSet('/codes/' + code, bid);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
-    const now = new Date().toLocaleString('fr-FR', {timeZone:'Europe/Paris'});
-    sendTelegram(`🔑 Nouveau code utilisé !\nCode: <code>${code}</code>\nDate: ${now}`);
-  }
+  const result = await checkCode(code, bid);
 
   document.querySelector('.login-btn').textContent = 'Accéder →';
   document.querySelector('.login-btn').disabled = false;
-  launchApp(code, isNew, false);
+
+  if(!result.success) {
+    if(result.reason === 'used') showErr('Ce code est déjà utilisé sur un autre appareil.');
+    else if(result.reason === 'network') showErr('Erreur réseau, réessaie.');
+    else showErr('Code incorrect ou déjà utilisé.');
+    shake();
+    return;
+  }
+
+  if(result.type !== 'admin') {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
+  }
+
+  launchApp(code, result.isNew, result.type === 'admin');
 }
 
 function showErr(msg) { document.getElementById('login-error').textContent = msg; }
