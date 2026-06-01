@@ -327,6 +327,13 @@ function tryLogin() {
   const valid = ALL_CODES.has(code) || TEST_CODES.has(code);
   if(!valid) { showErr('Code incorrect ou déjà utilisé.'); shake(); return; }
 
+  // ── Code test brûlé après déconnexion ──
+  if(TEST_CODES.has(code) && localStorage.getItem('burned_' + code)) {
+    showErr('Ce code test a déjà été utilisé.');
+    shake();
+    return;
+  }
+
   const bindKey = 'bind_' + code;
   const bid = getBrowserId();
   const existing = localStorage.getItem(bindKey);
@@ -359,6 +366,13 @@ function shake() {
 
 let appBuilt = false;
 function logout() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    if(saved && TEST_CODES.has(saved.code)) {
+      // Code test : le marquer comme brûlé définitivement
+      localStorage.setItem('burned_' + saved.code, '1');
+    }
+  } catch(e) {}
   localStorage.removeItem(STORAGE_KEY);
   location.reload();
 }
