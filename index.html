@@ -90,6 +90,194 @@ nav button.active{background:var(--c1);color:#fff}
 .recap-tbl tr:last-child td{border-bottom:none}
 .recap-tbl tr.hdr td{font-family:'Outfit',sans-serif;font-weight:700;font-size:11px;color:#aaa;background:rgba(255,255,255,0.05)}
 .recap-tbl tr.even td{background:rgba(255,255,255,0.02)}
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--surface:#111118;--surface2:#18181f;--border:rgba(255,255,255,0.06);
+  --text:#ede9df;--muted:#666;--faint:#222;
+  --red:#e63946;--orange:#f4a261;--teal:#2a9d8f;--blue:#4895ef;
+  --purple:#9b5de5;--pink:#f72585;--green:#06d6a0;--yellow:#ffd166;
+  --red2:#ef476f;--navy:#118ab2;
+}
+
+/* ── FRACTIONS MATHÉMATIQUES ── */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.15}
+.frac .num{border-bottom:1.5px solid currentColor;padding-bottom:2px;text-align:center;white-space:nowrap}
+.frac .den{padding-top:2px;text-align:center;white-space:nowrap}
+
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh}
+/* ── NAVIGATION TABS ── */
+.nav-bar{background:linear-gradient(135deg,#0d0d1a,#0a1628,#0d0d1a);border-bottom:2px solid var(--red);padding:16px 20px 0;position:sticky;top:0;z-index:300}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;gap:4px;overflow-x:auto}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{padding:8px 18px;border-radius:16px 16px 0 0;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:all .2s;background:rgba(255,255,255,0.04);color:#777;white-space:nowrap;flex-shrink:0}
+.nav-btn.active{background:var(--red);color:#fff}
+.tab-section{display:none}.tab-section.active{display:block}
+
+/* ── FLASHCARDS ── */
+.fc-wrap{max-width:900px;margin:0 auto;padding:24px 16px 80px}
+.fc-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.fc-stats{font-size:12px;color:var(--muted)}
+.fc-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.fc-filter{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;transition:all .15s}
+.fc-filter.on{opacity:1}.fc-filter.off{opacity:.35}
+.btn-reset{background:transparent;border:1px solid #333;border-radius:8px;color:#666;padding:6px 14px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px}
+#fc-prog-wrap{height:3px;background:var(--surface2);border-radius:2px;margin-bottom:12px;overflow:hidden}
+#fc-prog-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:2px;transition:width .3s}
+#fc-progress{font-size:11px;color:#444;margin-bottom:10px;text-align:center}
+#fc-card{background:linear-gradient(135deg,var(--surface),var(--surface2));border:2px solid var(--red);border-radius:20px;padding:44px 26px;cursor:pointer;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s;margin-bottom:18px;user-select:none;position:relative}
+#fc-card.flipped{background:linear-gradient(135deg,#112a20,#0a1f17);border-color:var(--teal)}
+#fc-cat{position:absolute;top:12px;right:14px;font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.45;font-weight:600}
+#fc-side{font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;color:var(--red);font-weight:700}
+#fc-card.flipped #fc-side{color:var(--teal)}
+#fc-text{font-size:17px;font-weight:700;text-align:center;max-width:380px}
+#fc-card.flipped #fc-text{font-family:'JetBrains Mono',monospace;font-size:20px}
+#fc-hint{font-size:11px;color:#333;margin-top:16px}
+#fc-actions{display:none;gap:10px;justify-content:center}
+#fc-actions.show{display:flex}
+.btn-know,.btn-dont{flex:1;max-width:190px;padding:13px;border-radius:12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;border:2px solid}
+.btn-know{background:rgba(42,157,143,.12);border-color:var(--teal);color:var(--teal)}
+.btn-dont{background:rgba(230,57,70,.12);border-color:var(--red);color:var(--red)}
+#fc-done{display:none;text-align:center;padding:50px 20px}
+#fc-done.show{display:block}
+.done-emoji{font-size:50px;margin-bottom:14px}
+.done-title{font-size:21px;font-weight:800;color:var(--teal);margin-bottom:8px}
+.done-sub{color:var(--muted);margin-bottom:24px;font-size:14px}
+.btn-restart{background:var(--red);border:none;border-radius:12px;color:#fff;padding:13px 30px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700}
+
+/* ── FORMULES ── */
+.recap-wrap{max-width:900px;margin:0 auto;padding:24px 16px 80px}
+.recap-grid{display:grid;gap:16px}
+.recap-block{border-radius:14px;overflow:hidden}
+.recap-head{padding:12px 18px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.recap-tbl{width:100%;border-collapse:collapse;background:#ffffff}
+.recap-tbl td{padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#111118;border-bottom:1px solid #e8e8ee;border-right:1px solid #e8e8ee}
+.recap-tbl td:last-child{border-right:none}
+.recap-tbl tr:last-child td{border-bottom:none}
+.recap-tbl tr.hdr td{font-family:'Outfit',sans-serif;font-weight:700;font-size:12px;color:#111118;background:#f0f0f5;letter-spacing:.5px}
+.recap-tbl tr.even td{background:#f8f8fc;color:#111118}
+
+
+/* HEADER */
+.hero{
+  background:linear-gradient(160deg,#0a0a0f 0%,#0f0f1a 40%,#0a1020 100%);
+  border-bottom:1px solid var(--border);padding:48px 24px 40px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 600px 300px at 50% 0%,rgba(72,149,239,0.06),transparent);
+}
+.hero-badge{
+  display:inline-block;font-size:10px;letter-spacing:5px;text-transform:uppercase;
+  color:var(--blue);border:1px solid rgba(72,149,239,0.3);border-radius:20px;
+  padding:5px 16px;margin-bottom:20px;font-weight:600;
+}
+.hero h1{
+  font-family:'Libre Baskerville',serif;font-size:clamp(24px,5vw,42px);
+  font-weight:700;letter-spacing:-1px;margin-bottom:8px;
+  background:linear-gradient(135deg,#ede9df,#aaa8a0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{font-size:14px;color:var(--muted);margin-bottom:32px}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:8px;max-width:900px;margin:0 auto;
+}
+.toc-item{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;
+  transition:all .2s;text-align:left;display:flex;align-items:center;gap:8px;
+}
+.toc-item:hover{background:var(--surface2)}
+
+/* MAIN */
+.main{max-width:900px;margin:0 auto;padding:32px 16px 80px}
+
+/* CHAPTER */
+.chapter{margin-bottom:48px}
+.ch-header{
+  display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;
+  padding-bottom:16px;border-bottom:1px solid var(--border);
+}
+.ch-icon{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:900;
+}
+.ch-title{font-family:'Libre Baskerville',serif;font-size:24px;font-weight:700;margin-bottom:4px}
+.ch-desc{font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+
+/* SECTIONS */
+.sections{display:flex;flex-direction:column;gap:12px}
+.section{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;transition:border-color .2s;
+}
+.section:hover{border-color:rgba(255,255,255,0.12)}
+.sec-header{
+  padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;user-select:none;
+}
+.sec-title{font-weight:700;font-size:13px}
+.sec-tag{font-size:10px;color:var(--muted);font-weight:400}
+.sec-body{
+  display:none;padding:0 18px 16px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  line-height:1.95;color:#ccc5b5;white-space:pre-wrap;
+  border-top:1px solid var(--border);padding-top:14px;
+}
+.sec-body.open{display:block}
+.section.active .sec-header{background:var(--surface2)}
+
+/* DEFINITION BOX */
+.def-box{
+  background:rgba(72,149,239,0.06);border:1px solid rgba(72,149,239,0.2);
+  border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:8px 0;font-size:12px;line-height:1.8;
+  font-family:'JetBrains Mono',monospace;color:#ccc5b5;white-space:pre-wrap;
+}
+.prop-box{
+  background:rgba(42,157,143,0.06);border:1px solid rgba(42,157,143,0.2);
+  border-left:3px solid var(--teal);border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:8px 0;font-size:12px;line-height:1.8;
+  font-family:'JetBrains Mono',monospace;color:#ccc5b5;white-space:pre-wrap;
+}
+.warn-box{
+  background:rgba(255,209,102,0.06);border:1px solid rgba(255,209,102,0.2);
+  border-left:3px solid var(--yellow);border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:8px 0;font-size:12px;line-height:1.8;
+  font-family:'JetBrains Mono',monospace;color:#ccc5b5;white-space:pre-wrap;
+}
+.method-box{
+  background:rgba(246,162,97,0.06);border:1px solid rgba(246,162,97,0.2);
+  border-left:3px solid var(--orange);border-radius:0 8px 8px 0;
+  padding:12px 16px;margin:8px 0;font-size:12px;line-height:1.8;
+  font-family:'JetBrains Mono',monospace;color:#ccc5b5;white-space:pre-wrap;
+}
+
+/* TABLE */
+.formula-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px}
+.formula-table th{
+  background:rgba(255,255,255,0.06);padding:8px 12px;
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;
+  color:#aaa;text-align:left;letter-spacing:.5px;border-bottom:1px solid var(--border);
+}
+.formula-table td{
+  padding:8px 12px;font-family:'JetBrains Mono',monospace;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.formula-table tr:last-child td{border-bottom:none}
+.formula-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}
+
+/* LABEL */
+.label{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:8px;
+  font-family:'Outfit',sans-serif;
+}
+
 </style>
 </head>
 <body>
@@ -112,55 +300,61 @@ nav button.active{background:var(--c1);color:#fff}
 <a href="admin.html" style="position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:20px;text-decoration:none;z-index:999;transition:all .2s" title="Admin">👑</a>
 
 <div id="app">
-  <header>
-    <div class="hdr-top">
-      <div class="hdr-label">Spécialité · Première</div>
-      <div class="hdr-title">Mathématiques — Fiches de révision</div>
-      <div class="hdr-prog">Programme 2019 · 10 chapitres · 40 flashcards</div>
-      <div class="hdr-user" id="hdr-user"></div>
-      <div id="logout-wrap" style="display:none;margin-top:6px"><button onclick="logout()" style="background:rgba(230,57,70,0.15);border:1px solid #e63946;border-radius:8px;color:#e63946;padding:5px 14px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer">⏏ Déconnexion</button></div>
-      <nav>
-        <button class="active" onclick="showTab('fiches',this)">📚 Fiches</button>
-        <button onclick="showTab('flash',this)">🃏 Flashcards</button>
-        <button onclick="showTab('recap',this)">📊 Formules</button>
-      </nav>
-    </div>
-  </header>
-  <div id="tab-fiches" class="tab active">
-    <p class="section-intro">10 chapitres du programme officiel</p>
-    <div class="search-wrap"><input type="text" id="search-input" placeholder="Rechercher…" oninput="filterChapters(this.value)"></div>
-    <div id="chapters-list"></div>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Programme 2019 · Spécialité</div>
+  <h1>Mathématiques — Première</h1>
+  <p class="hero-sub">Fiches de révision complètes · Cours Yvan Monka</p>
+  <div class="toc-grid" id="toc"></div>
+</div>
+
+<div class="nav-bar">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showTab('fiches',this)">📚 Fiches</button>
+    <button class="nav-btn" onclick="showTab('flash',this)">🃏 Flashcards</button>
+    <button class="nav-btn" onclick="showTab('recap',this)">📊 Formules clés</button>
   </div>
-  <div id="tab-flash" class="tab">
+</div>
+
+<div id="tab-fiches" class="tab-section active">
+  <div class="main" id="main"></div>
+</div>
+
+<div id="tab-flash" class="tab-section">
+  <div class="fc-wrap">
     <div class="fc-bar">
-      <span class="fc-stats" id="fc-stats">40 cartes disponibles</span>
+      <span class="fc-stats" id="fc-stats">60 cartes disponibles</span>
       <button class="btn-reset" onclick="resetCards()">↺ Recommencer</button>
     </div>
-    <div id="fc-area">
-      <div id="fc-prog-wrap"><div id="fc-prog-bar" style="width:0%"></div></div>
-      <div id="fc-progress"></div>
-      <div id="fc-card" onclick="flipCard()">
-        <span id="fc-card-cat"></span>
-        <div id="fc-card-side">Question</div>
-        <div id="fc-card-text"></div>
-        <div id="fc-card-hint">Appuie pour révéler</div>
-      </div>
-      <div id="fc-actions">
-        <button class="btn-know" onclick="nextCard(true)">✅ Je savais</button>
-        <button class="btn-dont" onclick="nextCard(false)">❌ À revoir</button>
-      </div>
-      <div id="fc-done">
-        <div class="done-emoji">🎉</div>
-        <div class="done-title">Session terminée !</div>
-        <div class="done-sub" id="fc-done-sub"></div>
-        <button class="btn-restart" onclick="resetCards()">Tout reprendre</button>
-      </div>
+    <div id="fc-filters"></div>
+    <div id="fc-prog-wrap"><div id="fc-prog-bar" style="width:0%"></div></div>
+    <div id="fc-progress"></div>
+    <div id="fc-card" onclick="flipCard()">
+      <span id="fc-cat"></span>
+      <div id="fc-side">Question</div>
+      <div id="fc-text"></div>
+      <div id="fc-hint">Appuie pour révéler</div>
+    </div>
+    <div id="fc-actions">
+      <button class="btn-know" onclick="nextCard(true)">✅ Je savais</button>
+      <button class="btn-dont" onclick="nextCard(false)">❌ À revoir</button>
+    </div>
+    <div id="fc-done">
+      <div class="done-emoji">🎉</div>
+      <div class="done-title">Session terminée !</div>
+      <div class="done-sub" id="fc-done-sub"></div>
+      <button class="btn-restart" onclick="resetCards()">Tout reprendre</button>
     </div>
   </div>
-  <div id="tab-recap" class="tab">
-    <p class="section-intro">Toutes les formules indispensables au bac</p>
+</div>
+
+<div id="tab-recap" class="tab-section">
+  <div class="recap-wrap">
     <div class="recap-grid" id="recap-grid"></div>
   </div>
+</div>
 </div>
 
 <script>
@@ -1231,28 +1425,82 @@ async function tryLogin() {
   const code = document.getElementById('code-input').value.trim();
   if(!code || code.length < 6) { showErr('Entre un code à 6 chiffres.'); return; }
 
+  // ── ADMIN : vérification locale immédiate ──
+  if(ADMIN_CODES.has(code)) {
+    const now = new Date().toLocaleString('fr-FR', {timeZone:'Europe/Paris'});
+    sendTelegram('👑 Connexion ADMIN\nCode: <code>'+code+'</code>\nDate: '+now);
+    launchApp(code, false, true);
+    return;
+  }
+
+  // ── Vérifier si code existe dans ALL_CODES ──
+  if(!ALL_CODES.has(code)) {
+    showErr('Code incorrect ou déjà utilisé.');
+    shake();
+    return;
+  }
+
   document.querySelector('.login-btn').textContent = 'Vérification…';
   document.querySelector('.login-btn').disabled = true;
 
   const bid = getBrowserId();
-  const result = await checkCode(code, bid);
+
+  // ── Vérifier d'abord en local ──
+  const localBind = localStorage.getItem('bind_'+code);
+  if(localBind && localBind === bid) {
+    // Déjà connecté sur cet appareil — accès direct
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
+    document.querySelector('.login-btn').textContent = 'Accéder →';
+    document.querySelector('.login-btn').disabled = false;
+    launchApp(code, false, false);
+    return;
+  }
+
+  // ── Appel backend Vercel avec timeout ──
+  let result = null;
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const resp = await fetch(BACKEND_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({code, browserId:bid}),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    result = await resp.json();
+  } catch(e) {
+    // Timeout ou erreur réseau — fallback local
+    result = null;
+  }
 
   document.querySelector('.login-btn').textContent = 'Accéder →';
   document.querySelector('.login-btn').disabled = false;
 
+  if(!result) {
+    // Fallback : utiliser localStorage seulement
+    const existing = localStorage.getItem('bind_'+code);
+    if(existing && existing !== bid) {
+      showErr('Ce code est déjà utilisé sur un autre appareil.');
+      shake();
+      return;
+    }
+    localStorage.setItem('bind_'+code, bid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
+    launchApp(code, !existing, false);
+    return;
+  }
+
   if(!result.success) {
     if(result.reason === 'used') showErr('Ce code est déjà utilisé sur un autre appareil.');
-    else if(result.reason === 'network') showErr('Erreur réseau, réessaie.');
     else showErr('Code incorrect ou déjà utilisé.');
     shake();
     return;
   }
 
-  if(result.type !== 'admin') {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
-  }
-
-  launchApp(code, result.isNew, result.type === 'admin');
+  localStorage.setItem('bind_'+code, bid);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
+  launchApp(code, result.isNew, false);
 }
 
 function showErr(msg) { document.getElementById('login-error').textContent = msg; }
@@ -1285,109 +1533,6 @@ function launchApp(code, isNew, isAdmin) {
 }
 
 // ── CHAPTERS DATA ──
-const chapters = [
-  {id:1,title:"Second degré",tag:"ALGÈBRE",color:"#e63946",icon:"²",sections:[
-    {sub:"Discriminant & racines",body:`Trinôme : f(x) = ax² + bx + c   (a ≠ 0)\n\nDiscriminant :  Δ = b² − 4ac\n\n• Δ > 0  →  2 racines :\n    x₁ = (−b − √Δ) / (2a)\n    x₂ = (−b + √Δ) / (2a)\n• Δ = 0  →  racine double  x₀ = −b/(2a)\n• Δ < 0  →  aucune racine réelle`},
-    {sub:"Forme canonique",body:`f(x) = a(x − α)² + β\n\n  α = −b/(2a)   (abscisse du sommet)\n  β = f(α) = −Δ/(4a)\n\nAxe de symétrie : x = α`},
-    {sub:"Forme factorisée & Viète",body:`Si Δ ≥ 0 :  f(x) = a(x − x₁)(x − x₂)\n\nRelations de Viète :\n  x₁ + x₂ = −b/a\n  x₁ × x₂ =  c/a`},
-    {sub:"Signe du trinôme",body:`Si a > 0 :\n  f(x) < 0  ⟺  x₁ < x < x₂\n  f(x) > 0  ⟺  x < x₁ ou x > x₂\n\nSi a < 0 : inverser.\nSi Δ < 0 : f a le signe de a partout.`},
-  ]},
-  {id:2,title:"Généralités sur les suites",tag:"ALGÈBRE",color:"#f4a261",icon:"n",sections:[
-    {sub:"Définitions",body:`Explicite :    uₙ = f(n)\nRécurrence :   uₙ₊₁ = g(uₙ) + u₀\n\nCroissante : uₙ₊₁ ≥ uₙ\nDécroissante : uₙ₊₁ ≤ uₙ`},
-    {sub:"Suites arithmétiques",body:`uₙ₊₁ = uₙ + r\nuₙ = u₀ + n·r\n\nSomme (n+1 termes) :\n  S = (n+1)(u₀ + uₙ)/2`},
-    {sub:"Suites géométriques",body:`uₙ₊₁ = q·uₙ\nuₙ = u₀ × qⁿ\n\nSomme (q ≠ 1) :\n  S = u₀ × (1 − qⁿ⁺¹) / (1 − q)`},
-    {sub:"Récurrence",body:`1. Initialisation : vérifier P(n₀)\n2. Hérédité : supposer P(n), montrer P(n+1)\n3. Conclusion : vrai pour tout n ≥ n₀`},
-  ]},
-  {id:3,title:"Dérivation",tag:"ANALYSE",color:"#2a9d8f",icon:"∂",sections:[
-    {sub:"Définition & tangente",body:`f'(a) = lim [f(a+h)−f(a)]/h  (h→0)\n\nTangente en a :\n  y = f'(a)(x−a) + f(a)`},
-    {sub:"Dérivées usuelles",body:`k → 0 | xⁿ → nxⁿ⁻¹ | √x → 1/(2√x)\n1/x → −1/x² | eˣ → eˣ | ln x → 1/x\nsin x → cos x | cos x → −sin x`},
-    {sub:"Règles",body:`(u+v)' = u'+v'\n(uv)' = u'v+uv'\n(u/v)' = (u'v−uv')/v²\n(eᵘ)' = u'eᵘ | (ln u)' = u'/u\n(sin u)' = u'cos u | (cos u)' = −u'sin u`},
-    {sub:"Variations",body:`f'>0 → croissante\nf'<0 → décroissante\nf'(a)=0 et + → − : maximum\nf'(a)=0 et − → + : minimum`},
-  ]},
-  {id:4,title:"Fonction exponentielle",tag:"ANALYSE",color:"#4895ef",icon:"e",sections:[
-    {sub:"Propriétés algébriques",body:`exp'=exp, exp(0)=1\neˣ⁺ʸ=eˣeʸ | (eˣ)ⁿ=eⁿˣ | e⁻ˣ=1/eˣ\neˣ>0 toujours | (eˣ)'=eˣ`},
-    {sub:"Limites & comparaison",body:`lim eˣ=+∞ (x→+∞)\nlim eˣ=0  (x→−∞)\n\nlim eˣ/xⁿ=+∞  (x→+∞)\nlim xⁿeˣ=0    (x→−∞)\n\n(eᵘ)' = u'eᵘ`},
-  ]},
-  {id:5,title:"Fonctions trigonométriques",tag:"ANALYSE",color:"#9b5de5",icon:"∿",sections:[
-    {sub:"Valeurs remarquables",body:`      0    π/6   π/4   π/3   π/2\ncos : 1   √3/2  √2/2  1/2    0\nsin : 0   1/2   √2/2  √3/2   1\ntan : 0   √3/3   1    √3     ∄`},
-    {sub:"Identités",body:`cos²x+sin²x=1\ncos(−x)=cosx (pair)\nsin(−x)=−sinx (impair)`},
-    {sub:"Formules d'addition",body:`cos(a+b)=cosacosb−sinasinb\nsin(a+b)=sinacosb+cosasinb\ncos(2a)=cos²a−sin²a=1−2sin²a\nsin(2a)=2sinacosa`},
-    {sub:"Dérivées & équations",body:`(sinx)'=cosx | (cosx)'=−sinx\n\ncos x=cos a  ⟺  x=±a+2kπ\nsin x=sin a  ⟺  x=a+2kπ ou π−a+2kπ`},
-  ]},
-  {id:6,title:"Produit scalaire",tag:"GÉOMÉTRIE",color:"#f72585",icon:"·",sections:[
-    {sub:"Formules",body:`Coord. : u⃗·v⃗ = xx'+yy'\nGéom. : u⃗·v⃗ = |u⃗||v⃗|cos θ\n\n|u⃗+v⃗|²=|u⃗|²+2u⃗·v⃗+|v⃗|²`},
-    {sub:"Perpendicularité & distance",body:`u⃗⊥v⃗  ⟺  u⃗·v⃗=0\n\nd(A, ax+by+c=0) =\n  |axₐ+byₐ+c| / √(a²+b²)`},
-  ]},
-  {id:7,title:"Géométrie repérée",tag:"GÉOMÉTRIE",color:"#06d6a0",icon:"xy",sections:[
-    {sub:"Vecteurs & droites",body:`AB⃗=(xB−xA;yB−yA)\n|AB|=√((xB−xA)²+(yB−yA)²)\nMilieu : ((xA+xB)/2;(yA+yB)/2)\n\nColinéaire : ad−bc=0\nPerpendiculaire : m₁m₂=−1`},
-    {sub:"Cercles",body:`Centre Ω(a;b), rayon r :\n  (x−a)²+(y−b)²=r²\n\nForme développée : x²+y²+dx+ey+f=0\n  Centre : (−d/2;−e/2)\n  r = √(d²/4+e²/4−f)`},
-  ]},
-  {id:8,title:"Probabilités conditionnelles",tag:"PROBABILITÉS",color:"#ffd166",icon:"P",sections:[
-    {sub:"Formules de base",body:`P(A|B)=P(A∩B)/P(B)\nP(A∩B)=P(A|B)P(B)=P(B|A)P(A)\n\nProbas totales :\n  P(A)=Σ P(A|Bᵢ)P(Bᵢ)`},
-    {sub:"Indépendance",body:`A⊥B  ⟺  P(A∩B)=P(A)P(B)\n       ⟺  P(A|B)=P(A)\n\n⚠️ Incompatibles ≠ Indépendants`},
-  ]},
-  {id:9,title:"Variables aléatoires",tag:"PROBABILITÉS",color:"#ef476f",icon:"X",sections:[
-    {sub:"Espérance & variance",body:`E(X)=Σ xᵢpᵢ\nV(X)=Σ(xᵢ−E(X))²pᵢ = E(X²)−[E(X)]²\nσ(X)=√V(X)\n\nE(aX+b)=aE(X)+b\nV(aX+b)=a²V(X)`},
-    {sub:"Loi binomiale B(n,p)",body:`P(X=k)=C(n,k)pᵏ(1−p)ⁿ⁻ᵏ\nE(X)=np\nV(X)=np(1−p)\n\nTriangle Pascal :\n1 | 1 1 | 1 2 1 | 1 3 3 1 | 1 4 6 4 1`},
-  ]},
-  {id:10,title:"Algorithmique & Python",tag:"ALGO",color:"#118ab2",icon:"{}",sections:[
-    {sub:"Bases",body:`x=5  # int\ny=3.14  # float\nL=[1,2,3]  # list\n\nif x>0:\n    print("positif")\nelse:\n    print("négatif")`},
-    {sub:"Boucles & fonctions",body:`for i in range(5):  # 0..4\n    print(i)\n\nwhile x>0:\n    x-=1\n\ndef carre(x):\n    return x**2`},
-    {sub:"Algorithmes classiques",body:`# Dichotomie\ndef dicho(f,a,b,eps):\n    while b-a>eps:\n        m=(a+b)/2\n        if f(a)*f(m)<=0: b=m\n        else: a=m\n    return (a+b)/2\n\n# Seuil\ndef seuil(u,S):\n    n=0\n    while u<=S:\n        u=2*u+1; n+=1\n    return n`},
-  ]},
-];
-
-const flashcards=[
-  {cat:"Second degré",q:"Discriminant de ax²+bx+c ?",a:"Δ = b² − 4ac"},
-  {cat:"Second degré",q:"Racines si Δ > 0 ?",a:"x = (−b ± √Δ) / (2a)"},
-  {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α=−b/2a"},
-  {cat:"Second degré",q:"Somme et produit des racines ?",a:"x₁+x₂=−b/a  ;  x₁x₂=c/a"},
-  {cat:"Suites",q:"Terme général arithmétique ?",a:"uₙ = u₀ + n·r"},
-  {cat:"Suites",q:"Terme général géométrique ?",a:"uₙ = u₀ × qⁿ"},
-  {cat:"Suites",q:"Somme arithmétique (n+1 termes) ?",a:"S = (n+1)(u₀+uₙ)/2"},
-  {cat:"Suites",q:"Somme géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
-  {cat:"Suites",q:"3 étapes de la récurrence ?",a:"1.Init  2.Hérédité  3.Conclusion"},
-  {cat:"Dérivation",q:"Dérivée de xⁿ ?",a:"nxⁿ⁻¹"},
-  {cat:"Dérivation",q:"Dérivée de √x ?",a:"1/(2√x)"},
-  {cat:"Dérivation",q:"Dérivée de (uv) ?",a:"u'v + uv'"},
-  {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v−uv')/v²"},
-  {cat:"Dérivation",q:"Équation tangente en a ?",a:"y = f'(a)(x−a)+f(a)"},
-  {cat:"Dérivation",q:"f'(x)>0 implique ?",a:"f strictement croissante"},
-  {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ"},
-  {cat:"Exponentielle",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
-  {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0"},
-  {cat:"Exponentielle",q:"eˣ⁺ʸ = ?",a:"eˣ × eʸ"},
-  {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1"},
-  {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a"},
-  {cat:"Trigonométrie",q:"sin(2a) = ?",a:"2·sin(a)·cos(a)"},
-  {cat:"Trigonométrie",q:"Dérivée de sin(x) ?",a:"cos(x)"},
-  {cat:"Trigonométrie",q:"Dérivée de cos(x) ?",a:"−sin(x)"},
-  {cat:"Trigonométrie",q:"Période de sin et cos ?",a:"2π"},
-  {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx'+yy'"},
-  {cat:"Produit scalaire",q:"u⃗⊥v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
-  {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|²+2u⃗·v⃗+|v⃗|²"},
-  {cat:"Probabilités",q:"P(A|B) = ?",a:"P(A∩B)/P(B)"},
-  {cat:"Probabilités",q:"Formule des probas totales ?",a:"P(A)=Σ P(A|Bᵢ)·P(Bᵢ)"},
-  {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B)=P(A)·P(B)"},
-  {cat:"Variables aléatoires",q:"P(X=k) pour B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
-  {cat:"Variables aléatoires",q:"E(X) pour B(n,p) ?",a:"np"},
-  {cat:"Variables aléatoires",q:"V(X) pour B(n,p) ?",a:"np(1−p)"},
-  {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X)+b"},
-  {cat:"Variables aléatoires",q:"V(aX+b) = ?",a:"a²·V(X)"},
-  {cat:"Géométrie",q:"Vecteurs colinéaires ?",a:"ad−bc=0"},
-  {cat:"Géométrie",q:"Distance A à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
-  {cat:"Géométrie",q:"Cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
-  {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
-];
-
-const recapTables=[
-  {title:"Dérivées",color:"#2a9d8f",cols:["f(x)","f'(x)"],rows:[["xⁿ","nxⁿ⁻¹"],["√x","1/(2√x)"],["1/x","−1/x²"],["eˣ","eˣ"],["ln x","1/x"],["sin x","cos x"],["cos x","−sin x"],["eᵘ","u'eᵘ"],["ln u","u'/u"],["sin u","u'cos u"],["cos u","−u'sin u"]]},
-  {title:"Second degré",color:"#e63946",cols:["Grandeur","Formule"],rows:[["Δ","b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Double (Δ=0)","−b/2a"],["Canonique","a(x−α)²+β"],["x₁+x₂","−b/a"],["x₁×x₂","c/a"]]},
-  {title:"Loi binomiale",color:"#ef476f",cols:["Grandeur","Formule"],rows:[["P(X=k)","C(n,k)pᵏ(1−p)ⁿ⁻ᵏ"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","aE(X)+b"],["V(aX+b)","a²V(X)"]]},
-  {title:"Trigonométrie",color:"#9b5de5",cols:["Formule","Résultat"],rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a"],["sin(2a)","2sinacosa"]]},
-  {title:"Suites",color:"#f4a261",cols:["Type","Formule"],rows:[["Arith. terme","u₀+n·r"],["Arith. somme","(n+1)(u₀+uₙ)/2"],["Géom. terme","u₀·qⁿ"],["Géom. somme","u₀(1−qⁿ⁺¹)/(1−q)"]]},
-];
-
 function buildApp(){
   // Chapters
   const cl=document.getElementById('chapters-list');
@@ -1424,7 +1569,108 @@ function buildApp(){
     });
     bl.appendChild(h);bl.appendChild(tb);rg.appendChild(bl);
   });
-  resetCards();
+  
+  // ══════════════════════════════════
+  // BUILD FLASHCARDS
+  // ══════════════════════════════════
+  const cats = [...new Set(flashcards.map(f=>f.cat))];
+  const catColors = {
+    "Second degré":"#e63946","Suites":"#f4a261","Dérivation":"#2a9d8f",
+    "Exponentielle":"#4895ef","Trigonométrie":"#9b5de5","Produit scalaire":"#f72585",
+    "Géométrie":"#06d6a0","Probabilités":"#ffd166","Variables aléatoires":"#ef476f"
+  };
+  let activeCats = new Set(cats);
+  let known=[], unknown=[], cidx=0, flipped=false;
+  
+  const filtersEl = document.getElementById('fc-filters');
+  cats.forEach(cat => {
+    const b = document.createElement('button');
+    b.className='fc-filter on';
+    b.textContent=cat;
+    b.style.color=catColors[cat]||'#aaa';
+    b.style.borderColor=(catColors[cat]||'#aaa')+'55';
+    b.onclick=()=>{
+      if(activeCats.has(cat)){activeCats.delete(cat);b.classList.replace('on','off');}
+      else{activeCats.add(cat);b.classList.replace('off','on');}
+      resetCards();
+    };
+    filtersEl.appendChild(b);
+  });
+  
+  function getFiltered(){return flashcards.filter(f=>activeCats.has(f.cat));}
+  function getRemaining(){const f=getFiltered();return f.filter((_,i)=>!known.includes(flashcards.indexOf(f[i]))&&!unknown.includes(flashcards.indexOf(f[i])));}
+  function updateStats(){const r=getRemaining();const tot=getFiltered().length;document.getElementById('fc-stats').textContent=`✅ ${known.length} sus  ·  ❌ ${unknown.length} à revoir  ·  🃏 ${r.length} / ${tot}`;}
+  
+  function showCard(){
+    const rem=getRemaining();
+    if(!rem.length){
+      document.getElementById('fc-card').style.display='none';
+      document.getElementById('fc-actions').classList.remove('show');
+      document.getElementById('fc-done').classList.add('show');
+      document.getElementById('fc-done-sub').textContent=`${known.length} mémorisées · ${unknown.length} à retravailler`;
+      return;
+    }
+    document.getElementById('fc-card').style.display='';
+    document.getElementById('fc-done').classList.remove('show');
+    const cur=rem[cidx%rem.length];
+    const tot=getFiltered().length; const seen=known.length+unknown.length;
+    document.getElementById('fc-prog-bar').style.width=Math.round(seen/tot*100)+'%';
+    document.getElementById('fc-progress').textContent=`Carte ${cidx%rem.length+1} / ${rem.length}`;
+    const card=document.getElementById('fc-card');
+    card.classList.remove('flipped');
+    document.getElementById('fc-side').textContent='Question';
+    document.getElementById('fc-text').textContent=cur.q;
+    document.getElementById('fc-cat').textContent=cur.cat;
+    document.getElementById('fc-cat').style.color=catColors[cur.cat]||'#aaa';
+    document.getElementById('fc-hint').style.display='';
+    document.getElementById('fc-actions').classList.remove('show');
+    flipped=false;
+  }
+  function flipCard(){
+    if(flipped)return;const rem=getRemaining();if(!rem.length)return;
+    const cur=rem[cidx%rem.length];flipped=true;
+    document.getElementById('fc-card').classList.add('flipped');
+    document.getElementById('fc-side').textContent='Réponse';
+    document.getElementById('fc-text').textContent=cur.a;
+    document.getElementById('fc-hint').style.display='none';
+    document.getElementById('fc-actions').classList.add('show');
+  }
+  function nextCard(ok){
+    const rem=getRemaining();const idx=flashcards.indexOf(rem[cidx%rem.length]);
+    if(ok)known.push(idx);else unknown.push(idx);
+    cidx++;updateStats();showCard();
+  }
+  function resetCards(){
+    known=[];unknown=[];cidx=0;flipped=false;
+    document.getElementById('fc-card').style.display='';
+    document.getElementById('fc-done').classList.remove('show');
+    updateStats();showCard();
+  }
+  
+  // ══════════════════════════════════
+  // BUILD RECAP TABLES
+  // ══════════════════════════════════
+  const recapGrid=document.getElementById('recap-grid');
+  recapTables.forEach(t=>{
+    const block=document.createElement('div');block.className='recap-block';
+    const head=document.createElement('div');head.className='recap-head';
+    head.style.cssText=`background:${t.color}18;border:1px solid ${t.color}44;color:${t.color}`;
+    head.innerHTML=`<span>${t.title}</span><span style="font-size:11px;opacity:.5;font-weight:400">${t.rows.length} formules</span>`;
+    const tbl=document.createElement('table');tbl.className='recap-tbl';
+    tbl.style.border=`1px solid ${t.color}22`;
+    const htr=document.createElement('tr');htr.className='hdr';
+    t.cols.forEach(c=>{const td=document.createElement('td');td.textContent=c;htr.appendChild(td)});
+    tbl.appendChild(htr);
+    t.rows.forEach((row,ri)=>{
+      const tr=document.createElement('tr');if(ri%2===1)tr.className='even';
+      row.forEach(cell=>{const td=document.createElement('td');td.textContent=cell;tr.appendChild(td)});
+      tbl.appendChild(tr);
+    });
+    block.appendChild(head);block.appendChild(tbl);recapGrid.appendChild(block);
+  });
+  
+  
+resetCards();
 }
 
 function filterChapters(q){
@@ -1464,7 +1710,1227 @@ function nextCard(ok){
   if(ok)known.push(idx);else unknown.push(idx);cidx++;updateStats();showCard();
 }
 function resetCards(){known=[];unknown=[];cidx=0;flipped=false;document.getElementById('fc-card').style.display='';document.getElementById('fc-done').classList.remove('show');updateStats();showCard();}
-function showTab(id,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
-</script>
+// ── CONTENU FICHES ──
+
+const chapters = [
+  {
+    id:1, title:"Second degré", tag:"ALGÈBRE · Ch.1/2 + Ch.2/2", color:"#e63946", icon:"²",
+    sections:[
+      {
+        title:"Fonction polynôme du second degré",
+        tag:"Définition",
+        boxes:[
+          {type:"def", content:`Toute fonction f définie sur ℝ par  f(x) = ax² + bx + c
+avec a, b, c ∈ ℝ  et  a ≠ 0.
+
+Aussi appelée « trinôme du second degré ».`}
+        ]
+      },
+      {
+        title:"Forme canonique",
+        tag:"Propriété + Méthode",
+        boxes:[
+          {type:"prop", content:`Tout trinôme f(x) = ax² + bx + c peut s'écrire :
+  f(x) = a(x − α)² + β
+
+  avec  α = −b/(2a)   et   β = f(α) = −Δ/(4a)
+
+C'est la forme canonique de f.`},
+          {type:"method", content:`Méthode — Compléter le carré :
+  f(x) = 2x² − 20x + 10
+       = 2(x² − 10x) + 10
+       = 2(x² − 10x + 25 − 25) + 10
+       = 2(x − 5)² − 50 + 10
+       = 2(x − 5)² − 40`}
+        ]
+      },
+      {
+        title:"Variations et sommet de la parabole",
+        tag:"Propriété",
+        boxes:[
+          {type:"prop", content:`Sommet de la parabole : S(α ; β)  avec α = −b/(2a)
+Axe de symétrie : droite d'équation  x = α
+
+Si a > 0 : « ☺ »  →  décroissante sur ]−∞ ; α]  puis croissante sur [α ; +∞[
+             minimum en α, valeur minimale β
+
+Si a < 0 : « ☹ »  →  croissante sur ]−∞ ; α]  puis décroissante sur [α ; +∞[
+             maximum en α, valeur maximale β`},
+          {type:"table", headers:["Cas","Forme canonique","Extremum"],
+           rows:[["a > 0","a(x−α)²+β","Minimum β en x=α"],["a < 0","a(x−α)²+β","Maximum β en x=α"]]}
+        ]
+      },
+      {
+        title:"Discriminant et résolution de ax²+bx+c=0",
+        tag:"Propriété · DÉMONSTRATION AU PROGRAMME",
+        boxes:[
+          {type:"def", content:`Discriminant :  Δ = b² − 4ac`},
+          {type:"prop", content:`• Δ < 0  →  pas de solution réelle
+• Δ = 0  →  une solution double  x₀ = −b/(2a)
+• Δ > 0  →  deux solutions :  x₁ = <span class="frac"><span class="num">−b−√Δ</span><span class="den">2a</span></span>   x₂ = <span class="frac"><span class="num">−b+√Δ</span><span class="den">2a</span></span>`},
+          {type:"method", content:`Démonstration (au programme) :
+ax²+bx+c = 0  ⟺  a(x+b/2a)² − Δ/(4a) = 0
+              ⟺  (x+b/2a)² = Δ/(4a²)
+Si Δ>0 : x+b/2a = ±√Δ/(2a)  →  deux solutions.`}
+        ]
+      },
+      {
+        title:"Forme factorisée et relations de Viète",
+        tag:"Propriété",
+        boxes:[
+          {type:"prop", content:`Si Δ ≥ 0 :  f(x) = a(x−x₁)(x−x₂)
+
+Relations de Viète :
+  Somme  :  x₁ + x₂ = −b/a
+  Produit :  x₁ × x₂ =  c/a`},
+          {type:"warn", content:`⚠️  Si Δ < 0 : pas de forme factorisée réelle.`}
+        ]
+      },
+      {
+        title:"Signe du trinôme",
+        tag:"Propriété · À CONNAÎTRE",
+        boxes:[
+          {type:"prop", content:`Si a > 0 et Δ > 0 (racines x₁ < x₂) :
+  f(x) < 0  ⟺  x₁ < x < x₂
+  f(x) > 0  ⟺  x < x₁  ou  x > x₂
+
+Si a > 0 et Δ ≤ 0 :
+  f(x) ≥ 0  pour tout x  (même signe que a)
+
+Inverser si a < 0.`}
+        ]
+      },
+    ]
+  },
+  {
+    id:2, title:"Suites numériques", tag:"ALGÈBRE · Généralités + Arith. + Géom.", color:"#f4a261", icon:"∑",
+    sections:[
+      {
+        title:"Définitions — suite, terme, rang",
+        tag:"Définition",
+        boxes:[
+          {type:"def", content:`Une suite (uₙ) est une liste ordonnée de réels.
+À tout entier n, on associe un réel uₙ (le terme de rang n).
+
+Deux modes de définition :
+• Explicite :    uₙ = f(n)          (terme en fonction de n directement)
+• Récurrence :  uₙ₊₁ = g(uₙ)  +  valeur initiale u₀`}
+        ]
+      },
+      {
+        title:"Sens de variation d'une suite",
+        tag:"Définition + Méthode",
+        boxes:[
+          {type:"def", content:`(uₙ) croissante  ⟺  uₙ₊₁ ≥ uₙ  pour tout n
+(uₙ) décroissante ⟺  uₙ₊₁ ≤ uₙ  pour tout n`},
+          {type:"method", content:`Méthode 1 — Étudier le signe de uₙ₊₁ − uₙ :
+  Si uₙ₊₁ − uₙ ≥ 0  →  croissante
+  Si uₙ₊₁ − uₙ ≤ 0  →  décroissante
+
+Méthode 2 — Étudier le rapport uₙ₊₁ / uₙ (si uₙ > 0) :
+  Si uₙ₊₁/uₙ ≥ 1  →  croissante
+  Si uₙ₊₁/uₙ ≤ 1  →  décroissante
+
+Méthode 3 — Via la fonction associée f :
+  Si f est croissante sur [0;+∞[  →  (uₙ) croissante`}
+        ]
+      },
+      {
+        title:"Suites arithmétiques",
+        tag:"Définition + Propriétés",
+        boxes:[
+          {type:"def", content:`(uₙ) arithmétique de raison r  ⟺  uₙ₊₁ = uₙ + r  pour tout n
+
+Terme général :  uₙ = u₀ + n·r   (ou  uₙ = u₁ + (n−1)·r)`},
+          {type:"prop", content:`Variations :
+  r > 0  →  croissante
+  r = 0  →  constante
+  r < 0  →  décroissante
+
+Somme des (n+1) premiers termes (de u₀ à uₙ) :
+  S = (n+1)(u₀+uₙ)/2
+  S = (nombre de termes) × (premier + dernier) / 2
+
+Représentation graphique : points alignés (croissance linéaire).`}
+        ]
+      },
+      {
+        title:"Suites géométriques",
+        tag:"Définition + Propriétés",
+        boxes:[
+          {type:"def", content:`(uₙ) géométrique de raison q (q > 0)  ⟺  uₙ₊₁ = q·uₙ  pour tout n
+
+Terme général :  uₙ = u₀ × qⁿ`},
+          {type:"prop", content:`Variations (u₀ > 0) :
+  q > 1        →  croissante
+  q = 1        →  constante
+  0 < q < 1  →  décroissante
+
+Somme des (n+1) premiers termes (q ≠ 1) :
+  S = u₀(1−qⁿ⁺¹)/(1−q)
+
+Représentation graphique : croissance exponentielle.`},
+          {type:"warn", content:`⚠️  Distinguer croissance LINÉAIRE (arith.) et EXPONENTIELLE (géom.).
+Exemple : placement bancaire → suite géométrique (intérêts composés).`}
+        ]
+      },
+      {
+        title:"Raisonnement par récurrence",
+        tag:"Méthode · DÉMONSTRATION AU PROGRAMME",
+        boxes:[
+          {type:"method", content:`Pour démontrer P(n) vraie pour tout n ≥ n₀ :
+
+1. INITIALISATION
+   Vérifier que P(n₀) est vraie.
+   (Calculer explicitement.)
+
+2. HÉRÉDITÉ
+   Supposer P(n) vraie pour un n ≥ n₀ fixé quelconque.
+   [C'est l'hypothèse de récurrence (HR)]
+   Montrer que P(n+1) est vraie.
+   (Partir de P(n+1) et utiliser la HR.)
+
+3. CONCLUSION
+   Par le principe de récurrence,
+   P(n) est vraie pour tout entier n ≥ n₀.`}
+        ]
+      },
+      {
+        title:"Suites bornées et convergence (notion)",
+        tag:"Définitions",
+        boxes:[
+          {type:"def", content:`(uₙ) majorée  : ∃ M,  uₙ ≤ M  pour tout n
+(uₙ) minorée  : ∃ m,  uₙ ≥ m  pour tout n
+(uₙ) bornée   : majorée ET minorée
+
+Suite convergente : ses termes se rapprochent d'une limite L.
+  On note  lim uₙ = L  (n→+∞)
+
+Théorème d'existence :
+  Croissante + majorée  →  converge
+  Décroissante + minorée  →  converge`}
+        ]
+      },
+    ]
+  },
+  {
+    id:3, title:"Dérivation", tag:"ANALYSE · Ch.1/2/3", color:"#2a9d8f", icon:"∂",
+    sections:[
+      {
+        title:"Limite en 0 et nombre dérivé",
+        tag:"Définition · DÉMONSTRATION AU PROGRAMME",
+        boxes:[
+          {type:"def", content:`Nombre dérivé de f en a :
+
+  f'(a) = lim  [f(a+h) − f(a)] / h
+          h→0
+
+f est dérivable en a si cette limite existe et est un réel L.
+f'(a) = L s'appelle le nombre dérivé de f en a.`},
+          {type:"prop", content:`Interprétation géométrique :
+  f'(a) = coefficient directeur de la tangente à la courbe de f au point d'abscisse a.
+
+Équation de la tangente en x = a :
+  y = f'(a)(x − a) + f(a)
+
+DÉMONSTRATION AU PROGRAMME :
+La tangente a pour pente f'(a), son équation est y = f'(a)·x + p.
+Elle passe par A(a ; f(a)) donc f(a) = f'(a)·a + p → p = f(a) − f'(a)·a.`}
+        ]
+      },
+      {
+        title:"Dérivées des fonctions usuelles",
+        tag:"À CONNAÎTRE PAR CŒUR",
+        boxes:[
+          {type:"table", headers:["f(x)","f'(x)","Domaine"],
+           rows:[
+            ["k (constante)","0","ℝ"],
+            ["ax (a ∈ ℝ)","a","ℝ"],
+            ["x²","2x","ℝ"],
+            ["xⁿ (n ∈ ℤ, n≥1)","nxⁿ⁻¹","ℝ"],
+            ["1/x","−1/x²","ℝ\\{0}"],
+            ["1/xⁿ","−n/xⁿ⁺¹","ℝ\\{0}"],
+            ["√x","1/(2√x)","  ]0;+∞["],
+            ["eˣ","eˣ","ℝ"],
+            ["ln x","1/x","  ]0;+∞["],
+            ["sin x","cos x","ℝ"],
+            ["cos x","−sin x","ℝ"],
+          ]},
+          {type:"warn", content:`⚠️  Démonstrations AU PROGRAMME :
+• Dérivée de x² : (a+h)²−a²)/h = 2a+h → 2a  ✓
+• Dérivée de 1/x : (1/(a+h)−1/a)/h = −1/(a(a+h)) → −1/a²  ✓
+• Non dérivabilité de √x en 0 : (√h−0)/h = 1/√h → +∞  ✓`}
+        ]
+      },
+      {
+        title:"Règles opératoires",
+        tag:"Propriétés · À CONNAÎTRE",
+        boxes:[
+          {type:"table", headers:["Fonction","Dérivée"],
+           rows:[
+            ["u + v","u' + v'"],
+            ["k·u  (k ∈ ℝ)","k·u'"],
+            ["u·v  (produit)","u'v + uv'"],
+            ["1/u","−u'/u²"],
+            ["u/v  (quotient)","(u'v − uv') / v²"],
+            ["uⁿ","n·u'·uⁿ⁻¹"],
+            ["√u","u'/(2√u)"],
+            ["eᵘ","u'·eᵘ"],
+            ["ln u","u'/u"],
+            ["sin u","u'·cos u"],
+            ["cos u","−u'·sin u"],
+            ["f(ax+b)","a·f'(ax+b)"],
+          ]},
+          {type:"warn", content:`⚠️  DÉMONSTRATION AU PROGRAMME pour le produit (uv)' :
+(uv)(a+h)−(uv)(a))/h
+= [u(a+h)v(a+h)−u(a)v(a)]/h
+= [u(a+h)−u(a)]/h · v(a+h) + u(a)·[v(a+h)−v(a)]/h
+→ u'(a)·v(a) + u(a)·v'(a)`}
+        ]
+      },
+      {
+        title:"Dérivée et variations — tableau de signes",
+        tag:"Théorème + Méthode",
+        boxes:[
+          {type:"prop", content:`Soit f dérivable sur I.
+  f'(x) ≥ 0 sur I  →  f croissante sur I
+  f'(x) ≤ 0 sur I  →  f décroissante sur I
+  f'(x) = 0 sur I  →  f constante sur I
+
+Extremum local :
+  f'(a) = 0 et f' change de + à −  →  maximum local en a
+  f'(a) = 0 et f' change de − à +  →  minimum local en a`},
+          {type:"method", content:`Méthode — Dresser le tableau de variations :
+1. Calculer f'(x)
+2. Résoudre f'(x) = 0
+3. Étudier le signe de f'(x) (trinôme ou affine)
+4. En déduire les variations de f
+5. Calculer les valeurs extrêmes f(α)`}
+        ]
+      },
+      {
+        title:"Applications : optimisation, position de courbes",
+        tag:"Méthodes",
+        boxes:[
+          {type:"method", content:`Problème d'optimisation :
+1. Exprimer la quantité à optimiser en fonction d'une variable x
+2. Déterminer l'intervalle de définition
+3. Calculer f'(x), trouver les extrema
+4. Conclure (maximum ou minimum selon le contexte)
+
+Position relative de deux courbes f et g :
+→  Étudier le signe de h(x) = f(x) − g(x)
+→  h(x) > 0  ⟹  Cf au-dessus de Cg
+→  h(x) < 0  ⟹  Cf en-dessous de Cg`}
+        ]
+      },
+    ]
+  },
+  {
+    id:4, title:"Fonction exponentielle (eˣ)", tag:"ANALYSE", color:"#4895ef", icon:"e",
+    sections:[
+      {
+        title:"Définition et propriétés fondamentales",
+        tag:"Définition · PROPRIÉTÉS DE BASE",
+        boxes:[
+          {type:"def", content:`Il existe une unique fonction dérivable sur ℝ telle que :
+  exp'= exp   et   exp(0) = 1
+
+Cette fonction s'appelle la fonction exponentielle.
+Notation : exp(x) = eˣ  avec  e ≈ 2,71828…
+
+Propriétés immédiates :
+  eˣ > 0  pour tout x ∈ ℝ    (toujours strictement positif)
+  exp est strictement croissante sur ℝ
+  (eˣ)' = eˣ`}
+        ]
+      },
+      {
+        title:"Propriétés algébriques",
+        tag:"À CONNAÎTRE PAR CŒUR",
+        boxes:[
+          {type:"prop", content:`e⁰ = 1        e¹ = e
+
+eˣ⁺ʸ = eˣ × eʸ
+eˣ⁻ʸ = eˣ / eʸ
+(eˣ)ⁿ = eⁿˣ   (n ∈ ℤ)
+e⁻ˣ  = 1/eˣ
+
+eˣ = eʸ  ⟺  x = y
+eˣ > eʸ  ⟺  x > y`},
+          {type:"table", headers:["Propriété","Formule"],
+           rows:[
+            ["Somme → produit","eˣ⁺ʸ = eˣ·eʸ"],
+            ["Opposé → inverse","e⁻ˣ = 1/eˣ"],
+            ["Différence → quotient","eˣ⁻ʸ = eˣ/eʸ"],
+            ["Puissance → multiple","(eˣ)ⁿ = eⁿˣ"],
+           ]}
+        ]
+      },
+      {
+        title:"Limites et croissances comparées",
+        tag:"Propriétés",
+        boxes:[
+          {type:"prop", content:`lim  eˣ = +∞    (x → +∞)
+lim  eˣ = 0     (x → −∞)     ← tend vers 0 par valeurs positives
+
+Croissances comparées :
+  lim  eˣ / xⁿ = +∞    (x → +∞)   →  exp domine tout polynôme
+  lim  xⁿ · eˣ = 0     (x → −∞)   →  exp écrase tout polynôme
+
+Exemple utile : lim  x·e⁻ˣ = 0  (x → +∞)`}
+        ]
+      },
+      {
+        title:"Dérivée composée et étude de fonctions",
+        tag:"Méthode",
+        boxes:[
+          {type:"prop", content:`Dérivée de eᵘ :  (eᵘ)' = u'·eᵘ
+
+Exemples :
+  (e²ˣ)' = 2e²ˣ
+  (e⁻ˣ)' = −e⁻ˣ
+  (ex²)'  = 2x·ex²
+  (e^(ax+b))' = a·e^(ax+b)`},
+          {type:"method", content:`Méthode — Étudier f(x) = (x+1)eˣ :
+1. f'(x) = 1·eˣ + (x+1)·eˣ = eˣ(x+2)
+2. Comme eˣ > 0 : signe de f'(x) = signe de (x+2)
+3. f'(x) = 0 ⟺ x = −2  (minimum)
+4. f(−2) = (−2+1)e⁻² = −e⁻²`},
+          {type:"prop", content:`Fonctions t ↦ eᵏᵗ (modèles de croissance/décroissance) :
+  (eᵏᵗ)' = k·eᵏᵗ
+
+  k > 0 : croissante  →  modèle de CROISSANCE exponentielle
+  k < 0 : décroissante  →  modèle de DÉCROISSANCE exponentielle
+
+Suite géométrique et exponentielle :
+  e^(na) = (eᵃ)ⁿ  →  suite géométrique de raison eᵃ`}
+        ]
+      },
+    ]
+  },
+  {
+    id:5, title:"Fonctions trigonométriques", tag:"ANALYSE · Ch.1/2", color:"#9b5de5", icon:"∿",
+    sections:[
+      {
+        title:"Cercle trigonométrique et radian",
+        tag:"Définitions",
+        boxes:[
+          {type:"def", content:`Cercle trigonométrique : cercle de centre O, rayon 1, orienté dans le sens direct (sens contraire des aiguilles d'une montre).
+
+Radian : unité d'angle telle que 2π rad = 360°
+
+Correspondances :
+  0°  → 0     |  30° → π/6   |  45° → π/4
+  60° → π/3   |  90° → π/2   |  180° → π   |  360° → 2π`},
+          {type:"svg_cercle", content:""},
+        ]
+      },
+      {
+        title:"Identités trigonométriques fondamentales",
+        tag:"À CONNAÎTRE PAR CŒUR · DÉMONSTRATIONS AU PROGRAMME",
+        boxes:[
+          {type:"prop", content:`IDENTITÉ DE PYTHAGORE (démo au programme) :
+  cos²(x) + sin²(x) = 1
+
+PARITÉ :
+  cos(−x) =  cos(x)    ← cosinus est PAIR
+  sin(−x) = −sin(x)    ← sinus est IMPAIR
+
+RELATIONS avec π :
+  cos(π−x) = −cos(x)      cos(π+x) = −cos(x)
+  sin(π−x) =  sin(x)      sin(π+x) = −sin(x)
+
+RELATIONS avec π/2 :
+  cos(π/2 − x) = sin(x)
+  sin(π/2 − x) = cos(x)`}
+        ]
+      },
+      {
+        title:"Formules d'addition et duplication",
+        tag:"À CONNAÎTRE",
+        boxes:[
+          {type:"prop", content:`Formules d'addition :
+  cos(a+b) = cos(a)cos(b) − sin(a)sin(b)
+  cos(a−b) = cos(a)cos(b) + sin(a)sin(b)
+  sin(a+b) = sin(a)cos(b) + cos(a)sin(b)
+  sin(a−b) = sin(a)cos(b) − cos(a)sin(b)
+
+Formules de duplication (a = b) :
+  cos(2a) = cos²a − sin²a = 1 − 2sin²a = 2cos²a − 1
+  sin(2a) = 2·sin(a)·cos(a)`}
+        ]
+      },
+      {
+        title:"Fonctions cosinus et sinus — propriétés",
+        tag:"Périodicité · Parité · Dérivées",
+        boxes:[
+          {type:"prop", content:`Périodicité :
+  cos(x + 2kπ) = cos(x)   }  Période 2π
+  sin(x + 2kπ) = sin(x)   }
+
+  tan(x + kπ) = tan(x)       Période π
+
+Dérivées :
+  (sin x)' = cos x
+  (cos x)' = −sin x
+  (tan x)' = 1/cos²x = 1 + tan²x`},
+          {type:"method", content:`Résoudre cos(x) = cos(a) :
+  x = a + 2kπ   ou   x = −a + 2kπ   (k ∈ ℤ)
+
+Résoudre sin(x) = sin(a) :
+  x = a + 2kπ   ou   x = π−a + 2kπ   (k ∈ ℤ)
+
+Résoudre tan(x) = tan(a) :
+  x = a + kπ   (k ∈ ℤ)`}
+        ]
+      },
+    ]
+  },
+  {
+    id:6, title:"Produit scalaire", tag:"GÉOMÉTRIE · Ch.1/2", color:"#f72585", icon:"·",
+    sections:[
+      {
+        title:"Définitions et formules du produit scalaire",
+        tag:"À CONNAÎTRE",
+        boxes:[
+          {type:"def", content:`Norme du vecteur AB⃗ :  |AB⃗| = distance AB
+
+Produit scalaire :  AB⃗ · AC⃗ = |AB⃗| × |AC⃗| × cos(BAĈ)
+
+Formule  AB⃗ · AB⃗ = |AB⃗|² = AB²`},
+          {type:"prop", content:`3 formules du produit scalaire :
+
+1. Formule avec le cosinus :
+   u⃗·v⃗ = |u⃗| × |v⃗| × cos(θ)
+
+2. Formule avec les normes (Al Kashi) :
+   AB⃗·AC⃗ = <span class="frac"><span class="num">|AB|² + |AC|² − |BC|²</span><span class="den">2</span></span>
+
+3. Formule en coordonnées (repère orthonormé) :
+   u⃗(x;y) · v⃗(x';y') = xx' + yy'`}
+        ]
+      },
+      {
+        title:"Propriétés algébriques",
+        tag:"Identités remarquables",
+        boxes:[
+          {type:"prop", content:`Commutativité :   u⃗·v⃗ = v⃗·u⃗
+Bilinéarité :      u⃗·(v⃗+w⃗) = u⃗·v⃗ + u⃗·w⃗
+Homogénéité :    (ku⃗)·v⃗ = k(u⃗·v⃗)
+Carré scalaire :  u⃗·u⃗ = |u⃗|²
+
+Identités remarquables :
+  |u⃗+v⃗|² = |u⃗|² + 2u⃗·v⃗ + |v⃗|²
+  |u⃗−v⃗|² = |u⃗|² − 2u⃗·v⃗ + |v⃗|²
+  (u⃗+v⃗)·(u⃗−v⃗) = |u⃗|² − |v⃗|²`},
+          {type:"warn", content:`⚠️  THÉORÈME D'AL KASHI (démonstration au programme) :
+Dans un triangle ABC :  a² = b² + c² − 2bc·cos(A)
+(Généralisation de Pythagore)
+
+Démonstration : AB⃗·AC⃗ = bc·cos(A) = (b²+c²−a²)/2
+→ a² = b² + c² − 2bc·cos(A)`}
+        ]
+      },
+      {
+        title:"Orthogonalité et projeté orthogonal",
+        tag:"Propriétés + Applications",
+        boxes:[
+          {type:"prop", content:`u⃗ ⊥ v⃗  ⟺  u⃗·v⃗ = 0
+
+Propriété du projeté orthogonal H de B sur (OA) :
+  OA⃗·OB⃗ = OA⃗·OH⃗    (car OA⃗ ⊥ HB⃗)
+
+Ensemble des points M tels que MA⃗·MB⃗ = 0 :
+  → Cercle de diamètre [AB]   (démonstration au programme)
+
+Distance d'un point A(xₐ;yₐ) à la droite ax+by+c=0 :
+  d = |axₐ+byₐ+c|/√(a²+b²)`}
+        ]
+      },
+    ]
+  },
+  {
+    id:7, title:"Géométrie repérée", tag:"GÉOMÉTRIE", color:"#06d6a0", icon:"xy",
+    sections:[
+      {
+        title:"Rappels — vecteurs, distances, milieu",
+        tag:"Propriétés de base",
+        boxes:[
+          {type:"prop", content:`Vecteur directeur d'une droite ax+by+c=0 :  u⃗(−b ; a)
+Vecteur normal :  n⃗(a ; b)
+
+Colinéarité de u⃗(x;y) et v⃗(x';y') :
+  u⃗ // v⃗  ⟺  xy' − yx' = 0
+
+Distance :  |AB| = √((xB−xA)² + (yB−yA)²)
+Milieu de [AB] : M((xA+xB)/2 ; (yA+yB)/2)`}
+        ]
+      },
+      {
+        title:"Vecteur normal à une droite",
+        tag:"Définition + Propriété · DÉMONSTRATION AU PROGRAMME",
+        boxes:[
+          {type:"def", content:`Un vecteur normal à une droite d est un vecteur non nul orthogonal à tout vecteur directeur de d.`},
+          {type:"prop", content:`Une droite de vecteur normal n⃗(a;b) a pour équation :  ax + by + c = 0
+Réciproquement : la droite ax+by+c=0 a pour vecteur normal n⃗(a;b).
+
+DÉMONSTRATION (au programme) :
+M(x;y) ∈ d  ⟺  AM⃗ · n⃗ = 0
+            ⟺  a(x−xA) + b(y−yA) = 0
+            ⟺  ax + by + (−axA−byA) = 0  ✓`}
+        ]
+      },
+      {
+        title:"Équations de cercle",
+        tag:"Propriété + Méthode",
+        boxes:[
+          {type:"prop", content:`Cercle de centre A(xA;yA) et de rayon r :
+  (x−xA)² + (y−yA)² = r²
+
+Forme développée :  x² + y² + dx + ey + f = 0
+  Centre : (−d/2 ; −e/2)
+  Rayon :  r = √(d²/4 + e²/4 − f)
+
+Condition d'existence : r² > 0`},
+          {type:"method", content:`Méthode — Déterminer les caractéristiques de x²+y²−2x−10y+17=0 :
+1. Compléter le carré :
+   (x²−2x+1−1) + (y²−10y+25−25) + 17 = 0
+   (x−1)² + (y−5)² = 9
+2. Centre : A(1 ; 5)   Rayon : r = 3`}
+        ]
+      },
+      {
+        title:"Projeté orthogonal d'un point sur une droite",
+        tag:"Méthode",
+        boxes:[
+          {type:"method", content:`Trouver le projeté H de A sur la droite d :
+1. Trouver l'équation de (AH) ⊥ d
+   (le vecteur directeur de d est le vecteur normal de (AH))
+2. Résoudre le système formé par les équations de d et (AH)
+3. Le point d'intersection est H.
+
+Exemple : A(2;4), droite d : x+3y−4=0
+  Vect. directeur de d : u⃗(−3;1)  →  vect. normal de (AH) : n⃗(−3;1)
+  Éq. de (AH) : −3x + y + c = 0 → avec A : −6+4+c=0 → c=2
+  (AH) : −3x+y+2=0
+  Système : x+3y=4 et −3x+y=−2  →  H(1;1)`}
+        ]
+      },
+    ]
+  },
+  {
+    id:8, title:"Probabilités conditionnelles & indépendance", tag:"PROBABILITÉS · Ch.1/2", color:"#ffd166", icon:"P",
+    sections:[
+      {
+        title:"Probabilités conditionnelles",
+        tag:"Définition + Formules",
+        boxes:[
+          {type:"def", content:`P(B|A) = probabilité de B sachant que A est réalisé.
+
+Formule :  P(B|A) = P(A∩B)/P(A)    avec P(A) > 0
+
+Propriétés :
+  0 ≤ P(B|A) ≤ 1
+  P(B̄|A) = 1 − P(B|A)`},
+          {type:"prop", content:`Formule de la probabilité des intersections :
+  P(A∩B) = P(A) × P(B|A) = P(B) × P(A|B)
+
+Formule de Bayes :
+  P(A|B) = P(B|A)·P(A)/P(B)`}
+        ]
+      },
+      {
+        title:"Arbre pondéré et probabilités totales",
+        tag:"Formule + Méthode",
+        boxes:[
+          {type:"prop", content:`Règles de l'arbre pondéré :
+• Somme des branches issues d'un nœud = 1
+• P(chemin) = produit des probabilités du chemin
+• P(événement) = somme des probabilités des chemins favorables`},
+          {type:"prop", content:`FORMULE DES PROBABILITÉS TOTALES :
+Si {B₁, B₂, ..., Bₙ} est une partition de Ω :
+  P(A) = Σ P(A|Bᵢ) × P(Bᵢ)
+         i=1 à n
+
+Cas n=2 (partition {B ; B̄}) :
+  P(A) = P(A|B)·P(B) + P(A|B̄)·P(B̄)`}
+        ]
+      },
+      {
+        title:"Indépendance de deux événements",
+        tag:"Définition + Propriétés",
+        boxes:[
+          {type:"def", content:`A et B sont INDÉPENDANTS  ⟺  P(A∩B) = P(A) × P(B)
+
+Équivalences :
+  P(B|A) = P(B)   (si P(A) > 0)
+  P(A|B) = P(A)   (si P(B) > 0)`},
+          {type:"warn", content:`⚠️  INCOMPATIBLES ≠ INDÉPENDANTS !
+
+Incompatibles : A∩B = ∅  →  P(A∩B) = 0
+Indépendants : P(A∩B) = P(A)·P(B)  (en général ≠ 0)
+
+Propriété : Si A et B indépendants → Ā et B sont indépendants.
+
+Épreuves indépendantes répétées :
+P(A₁∩A₂∩...∩Aₙ) = P(A₁)×P(A₂)×...×P(Aₙ)`}
+        ]
+      },
+    ]
+  },
+  {
+    id:9, title:"Variables aléatoires", tag:"PROBABILITÉS", color:"#ef476f", icon:"X",
+    sections:[
+      {
+        title:"Variable aléatoire et loi de probabilité",
+        tag:"Définitions",
+        boxes:[
+          {type:"def", content:`Une variable aléatoire X est une fonction qui associe un réel à chaque issue de l'univers Ω.
+
+Loi de probabilité : tableau des valeurs prises par X et leurs probabilités.
+
+  X   | x₁   x₂  ...  xₙ
+  P   | p₁   p₂  ...  pₙ
+
+avec  Σ pᵢ = 1  (somme des probabilités = 1)`}
+        ]
+      },
+      {
+        title:"Espérance, variance, écart-type",
+        tag:"Définitions + Formules",
+        boxes:[
+          {type:"def", content:`Espérance (= moyenne pondérée) :
+  E(X) = Σ xᵢ·pᵢ = x₁p₁ + x₂p₂ + ... + xₙpₙ
+
+Interprétation : valeur moyenne obtenue si on répète l'expérience un grand nombre de fois.
+
+Variance (= dispersion autour de l'espérance) :
+  V(X) = Σ (xᵢ−E(X))²·pᵢ
+  V(X) = E(X²) − [E(X)]²   ← formule de König (souvent plus pratique)
+
+Écart-type :
+  σ(X) = √V(X)`},
+          {type:"prop", content:`Propriétés de linéarité :
+  E(aX + b) = a·E(X) + b
+  V(aX + b) = a²·V(X)
+  σ(aX + b) = |a|·σ(X)`}
+        ]
+      },
+      {
+        title:"Loi binomiale B(n, p)",
+        tag:"Définition + Formules · INCONTOURNABLE",
+        boxes:[
+          {type:"def", content:`Schéma de Bernoulli : n répétitions INDÉPENDANTES d'une épreuve à 2 issues.
+  Succès (probabilité p) / Échec (probabilité 1−p)
+X = nombre de succès  →  X suit la loi binomiale B(n, p)`},
+          {type:"prop", content:`P(X = k) = C(n,k) × pᵏ × (1−p)ⁿ⁻ᵏ
+
+avec  C(n,k) = n!/(k!(n−k)!)   (coefficient binomial)
+
+E(X) = np
+V(X) = np(1−p)
+σ(X) = √(np(1−p))`},
+          {type:"warn", content:`Triangle de Pascal — C(n,k) = C(n−1,k−1) + C(n−1,k) :
+n=0:  1
+n=1:  1  1
+n=2:  1  2  1
+n=3:  1  3  3  1
+n=4:  1  4  6  4  1
+n=5:  1  5 10 10  5  1
+
+Symétrie :  C(n,k) = C(n, n−k)
+
+Calculatrice :
+  binomFdp(n,p,k) = P(X=k)
+  binomFréq(n,p,k) = P(X≤k)`}
+        ]
+      },
+    ]
+  },
+  {
+    id:10, title:"Algorithmique & Python", tag:"ALGO", color:"#118ab2", icon:"{}",
+    sections:[
+      {
+        title:"Variables, types, affectation",
+        tag:"Bases Python",
+        boxes:[
+          {type:"def", content:`# Types de base
+x = 5          # int   (entier)
+y = 3.14       # float (décimal)
+s = "bonjour"  # str   (chaîne)
+b = True       # bool  (booléen)
+L = [1, 2, 3]  # list  (liste)
+
+# Conversions
+int("5")   → 5      float(3) → 3.0
+str(42)    → "42"
+
+# Opérations
+x + y   x - y   x * y   x / y   x // y   x % y   x ** y`}
+        ]
+      },
+      {
+        title:"Structures de contrôle",
+        tag:"if / for / while",
+        boxes:[
+          {type:"def", content:`# Condition if / elif / else
+if x > 0:
+    print("positif")
+elif x == 0:
+    print("nul")
+else:
+    print("négatif")
+
+# Boucle for — parcours
+for i in range(5):       # 0, 1, 2, 3, 4
+    print(i)
+for i in range(1, 6):   # 1, 2, 3, 4, 5
+    print(i)
+
+# Boucle while — tant que
+while x > 0:
+    x = x - 1`}
+        ]
+      },
+      {
+        title:"Fonctions et listes",
+        tag:"Définition + Manipulation",
+        boxes:[
+          {type:"def", content:`# Définir une fonction
+def carre(x):
+    return x ** 2
+
+print(carre(4))   # affiche 16
+
+# Manipulation de listes
+L = [1, 2, 3, 4, 5]
+L[0]          # premier élément = 1
+L[-1]         # dernier = 5
+len(L)        # longueur = 5
+L.append(6)   # ajoute 6 en fin
+L[1:3]        # sous-liste [2, 3]
+
+# Liste en compréhension
+L = [i**2 for i in range(5)]   # [0,1,4,9,16]`}
+        ]
+      },
+      {
+        title:"Algorithmes classiques au programme",
+        tag:"Dichotomie · Seuil · Suites",
+        boxes:[
+          {type:"def", content:`# Algorithme de dichotomie — trouver une racine de f
+def dichotomie(f, a, b, eps):
+    while b - a > eps:
+        m = (a + b) / 2
+        if f(a) * f(m) <= 0:
+            b = m
+        else:
+            a = m
+    return (a + b) / 2
+
+# Algorithme de seuil
+# "À partir de quel rang uₙ dépasse S ?"
+def seuil(u0, S):
+    u = u0
+    n = 0
+    while u <= S:
+        u = 2 * u + 1   # exemple de récurrence
+        n += 1
+    return n
+
+# Calcul de termes d'une suite récurrente
+def suite(u0, n):
+    u = u0
+    for i in range(n):
+        u = 2 * u + 1
+    return u   # retourne uₙ`}
+        ]
+      },
+    ]
+  },
+];
+
+// ═══ RENDER TOC ═══
+const toc = document.getElementById('toc');
+chapters.forEach(ch => {
+  const btn = document.createElement('button');
+  btn.className = 'toc-item';
+  btn.innerHTML = `<span style="width:24px;height:24px;border-radius:6px;background:${ch.color}22;border:1px solid ${ch.color}55;color:${ch.color};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">${ch.icon}</span><span style="color:#bbb">Ch.${ch.id} — ${ch.title}</span>`;
+  btn.onclick = () => document.getElementById('ch'+ch.id).scrollIntoView({behavior:'smooth'});
+  toc.appendChild(btn);
+});
+
+// ═══ RENDER CHAPTERS ═══
+const main = document.getElementById('main');
+chapters.forEach(ch => {
+  const wrap = document.createElement('div');
+  wrap.className = 'chapter';
+  wrap.id = 'ch' + ch.id;
+
+  wrap.innerHTML = `<div class="ch-header">
+    <div class="ch-icon" style="background:${ch.color}18;border:1.5px solid ${ch.color};color:${ch.color}">${ch.icon}</div>
+    <div>
+      <div class="ch-title">Ch.${ch.id} — ${ch.title}</div>
+      <div class="ch-desc">${ch.tag}</div>
+    </div>
+  </div>`;
+
+  const sectionsDiv = document.createElement('div');
+  sectionsDiv.className = 'sections';
+
+  ch.sections.forEach((sec, si) => {
+    const sDiv = document.createElement('div');
+    sDiv.className = 'section';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'sec-header';
+    hdr.innerHTML = `<span class="sec-title">▸ ${sec.title}</span><span class="sec-tag">${sec.tag}</span>`;
+
+    const body = document.createElement('div');
+    body.className = 'sec-body';
+    body.style.borderLeftColor = ch.color;
+    body.style.borderLeftWidth = '3px';
+    body.style.borderLeftStyle = 'solid';
+
+    sec.boxes.forEach(box => {
+      if(box.type === 'svg_cercle') {
+        const svgDiv = document.createElement('div');
+        svgDiv.style.cssText = 'margin-top:10px;background:#0a0a0f;border-radius:10px;padding:12px';
+        svgDiv.innerHTML = `<h3>Cercle trigonométrique</h3>
+  <p class="sub">cos(x) = abscisse · sin(x) = ordonnée · sens + = antihoraire</p>
+
+  <!-- SVG 700×700 viewBox — beaucoup d'espace pour éviter tout chevauchement -->
+  <svg viewBox="-300 -300 600 600" width="100%" style="max-width:700px;display:block;margin:0 auto">
+    <rect x="-300" y="-300" width="600" height="600" fill="#0a0a0f"/>
+
+    <!-- Grille -->
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#18182a" stroke-width="1.5"/>
+
+    <!-- Axes -->
+    <line x1="-200" y1="0" x2="200" y2="0" stroke="#252535" stroke-width="1.5"/>
+    <line x1="0" y1="-200" x2="0" y2="200" stroke="#252535" stroke-width="1.5"/>
+    <polygon points="200,0 193,-4 193,4" fill="#333"/>
+    <polygon points="0,-200 -4,-193 4,-193" fill="#333"/>
+    <text x="207" y="5" fill="#444" font-size="11">x</text>
+    <text x="5" y="-203" fill="#444" font-size="11">y</text>
+    <text x="-12" y="14" fill="#444" font-size="10">O</text>
+
+    <!-- Marques ±1 -->
+    <text x="143" y="14" fill="#333" font-size="9">1</text>
+    <text x="-165" y="14" fill="#333" font-size="9">−1</text>
+    <text x="4" y="-143" fill="#333" font-size="9">1</text>
+    <text x="4" y="158" fill="#333" font-size="9">−1</text>
+
+    <!-- Cercle -->
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#2a2a4a" stroke-width="2.5"/>
+
+    <!-- Sens direct -->
+    <path d="M 28 0 A 28 28 0 0 0 20 -20" fill="none" stroke="#4895ef" stroke-width="1.5" marker-end="url(#arr)"/>
+    <defs>
+      <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#4895ef"/>
+      </marker>
+    </defs>
+    <text x="32" y="-22" fill="#4895ef" font-size="9">sens +</text>
+
+    <!-- ═══════════════════════════════
+         POINTS — rayon 140px
+         cos*140, -sin*140 (SVG y inversé)
+         ═══════════════════════════════ -->
+
+    <!-- 0° → (140, 0) -->
+    <line x1="0" y1="0" x2="140" y2="0" stroke="#4895ef" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="140" cy="0" r="5" fill="#4895ef"/>
+    <text x="148" y="-10" fill="#4895ef" font-size="12" font-weight="bold">0</text>
+    <text x="148" y="3" fill="#666" font-size="9">(1 ; 0)</text>
+
+    <!-- π/6 = 30° → cos=√3/2≈0.866 sin=0.5 → (121, -70) -->
+    <line x1="0" y1="0" x2="121" y2="-70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="121" cy="-70" r="4" fill="#9b5de5"/>
+    <text x="129" y="-76" fill="#9b5de5" font-size="11" font-weight="bold">π/6</text>
+    <text x="129" y="-64" fill="#666" font-size="9">(√3/2 ; ½)</text>
+
+    <!-- π/4 = 45° → (99, -99) -->
+    <line x1="0" y1="0" x2="99" y2="-99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="99" cy="-99" r="4" fill="#f72585"/>
+    <text x="106" y="-106" fill="#f72585" font-size="11" font-weight="bold">π/4</text>
+    <text x="106" y="-94" fill="#666" font-size="9">(√2/2 ; √2/2)</text>
+
+    <!-- π/3 = 60° → cos=0.5 sin=√3/2≈0.866 → (70, -121) -->
+    <line x1="0" y1="0" x2="70" y2="-121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="70" cy="-121" r="4" fill="#06d6a0"/>
+    <text x="76" y="-130" fill="#06d6a0" font-size="11" font-weight="bold">π/3</text>
+    <text x="76" y="-118" fill="#666" font-size="9">(½ ; √3/2)</text>
+
+    <!-- π/2 = 90° → (0, -140) -->
+    <line x1="0" y1="0" x2="0" y2="-140" stroke="#ffd166" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="0" cy="-140" r="5" fill="#ffd166"/>
+    <text x="-52" y="-148" fill="#ffd166" font-size="12" font-weight="bold">π/2</text>
+    <text x="-42" y="-136" fill="#666" font-size="9">(0 ; 1)</text>
+
+    <!-- 2π/3 = 120° → (-70, -121) -->
+    <line x1="0" y1="0" x2="-70" y2="-121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="-70" cy="-121" r="4" fill="#06d6a0"/>
+    <text x="-130" y="-130" fill="#06d6a0" font-size="11" font-weight="bold">2π/3</text>
+    <text x="-145" y="-118" fill="#666" font-size="9">(−½;√3/2)</text>
+
+    <!-- 3π/4 = 135° → (-99, -99) -->
+    <line x1="0" y1="0" x2="-99" y2="-99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="-99" cy="-99" r="4" fill="#f72585"/>
+    <text x="-160" y="-106" fill="#f72585" font-size="11" font-weight="bold">3π/4</text>
+    <text x="-178" y="-94" fill="#666" font-size="9">(−√2/2;√2/2)</text>
+
+    <!-- 5π/6 = 150° → (-121, -70) -->
+    <line x1="0" y1="0" x2="-121" y2="-70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="-121" cy="-70" r="4" fill="#9b5de5"/>
+    <text x="-182" y="-76" fill="#9b5de5" font-size="11" font-weight="bold">5π/6</text>
+    <text x="-200" y="-64" fill="#666" font-size="9">(−√3/2;½)</text>
+
+    <!-- π = 180° → (-140, 0) -->
+    <circle cx="-140" cy="0" r="5" fill="#4895ef"/>
+    <text x="-185" y="-8" fill="#4895ef" font-size="12" font-weight="bold">π</text>
+    <text x="-185" y="4" fill="#666" font-size="9">(−1 ; 0)</text>
+
+    <!-- 7π/6 = 210° → (-121, 70) -->
+    <line x1="0" y1="0" x2="-121" y2="70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="-121" cy="70" r="4" fill="#9b5de5"/>
+    <text x="-182" y="66" fill="#9b5de5" font-size="11" font-weight="bold">7π/6</text>
+    <text x="-200" y="78" fill="#666" font-size="9">(−√3/2;−½)</text>
+
+    <!-- 5π/4 = 225° → (-99, 99) -->
+    <line x1="0" y1="0" x2="-99" y2="99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="-99" cy="99" r="4" fill="#f72585"/>
+    <text x="-160" y="94" fill="#f72585" font-size="11" font-weight="bold">5π/4</text>
+    <text x="-178" y="108" fill="#666" font-size="9">(−√2/2;−√2/2)</text>
+
+    <!-- 4π/3 = 240° → (-70, 121) -->
+    <line x1="0" y1="0" x2="-70" y2="121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="-70" cy="121" r="4" fill="#06d6a0"/>
+    <text x="-130" y="118" fill="#06d6a0" font-size="11" font-weight="bold">4π/3</text>
+    <text x="-145" y="132" fill="#666" font-size="9">(−½;−√3/2)</text>
+
+    <!-- 3π/2 = 270° → (0, 140) -->
+    <circle cx="0" cy="140" r="5" fill="#ffd166"/>
+    <text x="-54" y="136" fill="#ffd166" font-size="12" font-weight="bold">3π/2</text>
+    <text x="-42" y="150" fill="#666" font-size="9">(0 ; −1)</text>
+
+    <!-- 5π/3 = 300° → (70, 121) -->
+    <line x1="0" y1="0" x2="70" y2="121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="70" cy="121" r="4" fill="#06d6a0"/>
+    <text x="76" y="118" fill="#06d6a0" font-size="11" font-weight="bold">5π/3</text>
+    <text x="76" y="132" fill="#666" font-size="9">(½;−√3/2)</text>
+
+    <!-- 7π/4 = 315° → (99, 99) -->
+    <line x1="0" y1="0" x2="99" y2="99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="99" cy="99" r="4" fill="#f72585"/>
+    <text x="106" y="94" fill="#f72585" font-size="11" font-weight="bold">7π/4</text>
+    <text x="106" y="108" fill="#666" font-size="9">(√2/2;−√2/2)</text>
+
+    <!-- 11π/6 = 330° → (121, 70) -->
+    <line x1="0" y1="0" x2="121" y2="70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
+    <circle cx="121" cy="70" r="4" fill="#9b5de5"/>
+    <text x="129" y="64" fill="#9b5de5" font-size="11" font-weight="bold">11π/6</text>
+    <text x="129" y="78" fill="#666" font-size="9">(√3/2;−½)</text>
+
+    <!-- 2π = même que 0 — juste label -->
+    <text x="148" y="16" fill="#4895ef" font-size="9" opacity="0.5">= 2π</text>
+  </svg>
+
+  <!-- Tableau -->
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th style="text-align:left;color:#666">x</th>
+        <th style="color:#4895ef">0</th>
+        <th style="color:#9b5de5">π/6</th>
+        <th style="color:#f72585">π/4</th>
+        <th style="color:#06d6a0">π/3</th>
+        <th style="color:#ffd166">π/2</th>
+        <th style="color:#4895ef">π</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#e63946">cos(x)</td>
+        <td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td><td>−1</td>
+      </tr>
+      <tr>
+        <td style="color:#2a9d8f">sin(x)</td>
+        <td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td><td>0</td>
+      </tr>
+      <tr>
+        <td style="color:#f4a261">tan(x)</td>
+        <td>0</td><td>√3/3</td><td>1</td><td>√3</td><td style="color:#333">∄</td><td>0</td>
+      </tr>
+    </tbody>
+  </table>`;
+        body.appendChild(svgDiv);
+      } else if(box.type === 'table') {
+        const tbl = document.createElement('table');
+        tbl.className = 'formula-table';
+        tbl.style.marginTop = '6px';
+        const thead = document.createElement('thead');
+        const hrow = document.createElement('tr');
+        box.headers.forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          hrow.appendChild(th);
+        });
+        thead.appendChild(hrow);
+        tbl.appendChild(thead);
+        const tbody = document.createElement('tbody');
+        box.rows.forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        tbl.appendChild(tbody);
+        body.appendChild(tbl);
+      } else {
+        const d = document.createElement('div');
+        const colorMap = {def:'var(--blue)',prop:'var(--teal)',warn:'var(--yellow)',method:'var(--orange)'};
+        d.className = box.type + '-box';
+        const lbl = document.createElement('div');
+        lbl.className = 'label';
+        lbl.style.background = colorMap[box.type] + '18';
+        lbl.style.color = colorMap[box.type];
+        lbl.style.borderColor = colorMap[box.type] + '44';
+        lbl.style.border = '1px solid';
+        const labelText = {def:'Définition',prop:'Propriété',warn:'⚠️ Attention',method:'Méthode'};
+        lbl.textContent = labelText[box.type];
+        d.appendChild(lbl);
+        const pre = document.createElement('div');
+        pre.style.cssText = 'font-family:JetBrains Mono,monospace;font-size:12px;line-height:1.9;white-space:pre-wrap';
+        pre.textContent = box.content;
+        d.appendChild(pre);
+        body.appendChild(d);
+      }
+    });
+
+    hdr.onclick = () => {
+      const isOpen = body.classList.toggle('open');
+      hdr.querySelector('.sec-title').textContent = (isOpen ? '▾ ' : '▸ ') + sec.title;
+      sDiv.classList.toggle('active', isOpen);
+    };
+
+    sDiv.appendChild(hdr);
+    sDiv.appendChild(body);
+    sectionsDiv.appendChild(sDiv);
+  });
+
+  wrap.appendChild(sectionsDiv);
+  main.appendChild(wrap);
+});
+
+</
+  // ══════════════════════════════════
+  // FLASHCARDS — 60 cartes
+  // ══════════════════════════════════
+  const flashcards = [
+    // Second degré
+    {cat:"Second degré",q:"Discriminant de ax²+bx+c ?",a:"Δ = b² − 4ac"},
+    {cat:"Second degré",q:"Racines si Δ > 0 ?",a:"x = (−b ± √Δ) / (2a)"},
+    {cat:"Second degré",q:"Racine double si Δ = 0 ?",a:"x₀ = −b/(2a)"},
+    {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α = −b/(2a), β=f(α)"},
+    {cat:"Second degré",q:"Somme des racines ?",a:"x₁+x₂ = −b/a"},
+    {cat:"Second degré",q:"Produit des racines ?",a:"x₁×x₂ = c/a"},
+    {cat:"Second degré",q:"Signe du trinôme si a>0, Δ>0 entre les racines ?",a:"f(x) < 0  ⟺  x₁ < x < x₂"},
+    // Suites
+    {cat:"Suites",q:"Terme général suite arithmétique (raison r) ?",a:"uₙ = u₀ + n·r"},
+    {cat:"Suites",q:"Terme général suite géométrique (raison q) ?",a:"uₙ = u₀ × qⁿ"},
+    {cat:"Suites",q:"Somme de n+1 termes d'une suite arithmétique ?",a:"S = (n+1)(u₀+uₙ)/2"},
+    {cat:"Suites",q:"Somme de n+1 termes d'une suite géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
+    {cat:"Suites",q:"3 étapes du raisonnement par récurrence ?",a:"1. Initialisation  2. Hérédité  3. Conclusion"},
+    {cat:"Suites",q:"Suite arithmétique croissante ⟺ ?",a:"r > 0"},
+    {cat:"Suites",q:"Suite géométrique décroissante (u₀>0) ⟺ ?",a:"0 < q < 1"},
+    {cat:"Suites",q:"Comment étudier les variations ? (méthode 1)",a:"Calculer le signe de uₙ₊₁ − uₙ"},
+    // Dérivation
+    {cat:"Dérivation",q:"Nombre dérivé f'(a) = ?",a:"lim [f(a+h)−f(a)]/h  (h→0)"},
+    {cat:"Dérivation",q:"Équation de la tangente en x=a ?",a:"y = f'(a)(x−a) + f(a)"},
+    {cat:"Dérivation",q:"Dérivée de xⁿ ?",a:"nxⁿ⁻¹"},
+    {cat:"Dérivation",q:"Dérivée de √x ?",a:"1/(2√x)"},
+    {cat:"Dérivation",q:"Dérivée de 1/x ?",a:"−1/x²"},
+    {cat:"Dérivation",q:"Dérivée de (uv) ?",a:"u'v + uv'"},
+    {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v − uv') / v²"},
+    {cat:"Dérivation",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
+    {cat:"Dérivation",q:"Dérivée de ln(u) ?",a:"u'/u"},
+    {cat:"Dérivation",q:"Dérivée de f(ax+b) ?",a:"a·f'(ax+b)"},
+    {cat:"Dérivation",q:"f'(x) > 0 sur I implique ?",a:"f strictement croissante sur I"},
+    {cat:"Dérivation",q:"f'(a)=0 et f' change +→− implique ?",a:"Maximum local de f en a"},
+    // Exponentielle
+    {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ  (sa propre dérivée)"},
+    {cat:"Exponentielle",q:"eˣ⁺ʸ = ?",a:"eˣ × eʸ"},
+    {cat:"Exponentielle",q:"e⁻ˣ = ?",a:"1/eˣ"},
+    {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0  (par valeurs positives)"},
+    {cat:"Exponentielle",q:"lim eˣ/xⁿ quand x→+∞ ?",a:"+∞  (exp domine tout polynôme)"},
+    {cat:"Exponentielle",q:"eˣ = eʸ ⟺ ?",a:"x = y"},
+    // Trigonométrie
+    {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1  (identité de Pythagore)"},
+    {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a = 2cos²a−1"},
+    {cat:"Trigonométrie",q:"sin(2a) = ?",a:"2·sin(a)·cos(a)"},
+    {cat:"Trigonométrie",q:"Dérivée de sin(x) ?",a:"cos(x)"},
+    {cat:"Trigonométrie",q:"Dérivée de cos(x) ?",a:"−sin(x)"},
+    {cat:"Trigonométrie",q:"Période de sin et cos ?",a:"2π"},
+    {cat:"Trigonométrie",q:"cos(π/3) et sin(π/3) ?",a:"cos=1/2  ;  sin=√3/2"},
+    {cat:"Trigonométrie",q:"cos(π/4) et sin(π/4) ?",a:"cos=sin=√2/2"},
+    {cat:"Trigonométrie",q:"Résoudre cos(x)=cos(a) ?",a:"x = ±a + 2kπ  (k∈ℤ)"},
+    {cat:"Trigonométrie",q:"Résoudre sin(x)=sin(a) ?",a:"x = a+2kπ  ou  x = π−a+2kπ"},
+    // Produit scalaire
+    {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx' + yy'"},
+    {cat:"Produit scalaire",q:"u⃗ ⊥ v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
+    {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|² + 2u⃗·v⃗ + |v⃗|²"},
+    {cat:"Produit scalaire",q:"Théorème d'Al Kashi ?",a:"a² = b² + c² − 2bc·cos(A)"},
+    {cat:"Produit scalaire",q:"Distance de A(xₐ;yₐ) à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
+    // Géométrie
+    {cat:"Géométrie",q:"Vecteurs colinéaires : condition ?",a:"xy' − yx' = 0  (déterminant nul)"},
+    {cat:"Géométrie",q:"Vecteur normal de ax+by+c=0 ?",a:"n⃗(a ; b)"},
+    {cat:"Géométrie",q:"Équation du cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
+    {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
+    // Probabilités
+    {cat:"Probabilités",q:"P(B|A) = ?",a:"P(A∩B)/P(A)"},
+    {cat:"Probabilités",q:"Formule des probabilités totales ?",a:"P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"},
+    {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B) = P(A)·P(B)"},
+    {cat:"Probabilités",q:"P(B̄|A) = ?",a:"1 − P(B|A)"},
+    // Variables aléatoires
+    {cat:"Variables aléatoires",q:"P(X=k) pour X~B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
+    {cat:"Variables aléatoires",q:"E(X) pour X~B(n,p) ?",a:"np"},
+    {cat:"Variables aléatoires",q:"V(X) pour X~B(n,p) ?",a:"np(1−p)"},
+    {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X) + b"},
+    {cat:"Variables aléatoires",q:"V(aX+b) = ?",a:"a²·V(X)"},
+    {cat:"Variables aléatoires",q:"Formule de König pour V(X) ?",a:"V(X) = E(X²) − [E(X)]²"},
+  ];
+  
+  // ══════════════════════════════════
+  // TABLEAUX DE FORMULES — 8 blocs
+  // ══════════════════════════════════
+  const recapTables = [
+    {title:"Dérivées usuelles",color:"#2a9d8f",cols:["f(x)","f'(x)","Domaine"],
+     rows:[["k","0","ℝ"],["xⁿ","nxⁿ⁻¹","ℝ"],["√x","1/(2√x)","]0;+∞["],["1/x","−1/x²","ℝ\{0}"],["eˣ","eˣ","ℝ"],["ln x","1/x","]0;+∞["],["sin x","cos x","ℝ"],["cos x","−sin x","ℝ"]]},
+    {title:"Dérivées composées",color:"#4895ef",cols:["Fonction","Dérivée"],
+     rows:[["eᵘ","u'·eᵘ"],["ln u","u'/u"],["uⁿ","n·u'·uⁿ⁻¹"],["√u","u'/(2√u)"],["sin u","u'·cos u"],["cos u","−u'·sin u"],["f(ax+b)","a·f'(ax+b)"]]},
+    {title:"Second degré — formulaire",color:"#e63946",cols:["Grandeur","Formule"],
+     rows:[["Discriminant","Δ = b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Racine double (Δ=0)","−b/(2a)"],["Forme canonique","a(x−α)²+β, α = −b/(2a)"],["Somme x₁+x₂","−b/a"],["Produit x₁×x₂","c/a"],["Sommet parabole","(−b/(2a) ; −Δ/4a)"]]},
+    {title:"Suites — synthèse",color:"#f4a261",cols:["Type","Formule"],
+     rows:[["Arith. — terme général","uₙ = u₀ + n·r"],["Arith. — somme (n+1 termes)","(n+1)(u₀+uₙ)/2"],["Géom. — terme général","uₙ = u₀ × qⁿ"],["Géom. — somme (q≠1)","u₀(1−qⁿ⁺¹)/(1−q)"],["Croissante","uₙ₊₁ − uₙ ≥ 0"],["Bornée + monotone","→ converge"]]},
+    {title:"Loi binomiale B(n,p)",color:"#ef476f",cols:["Grandeur","Formule"],
+     rows:[["P(X=k)","C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"],["C(n,k)","n!/(k!(n−k)!)"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","a·E(X)+b"],["V(aX+b)","a²·V(X)"]]},
+    {title:"Trigonométrie — valeurs et formules",color:"#9b5de5",cols:["Formule","Résultat/Développement"],
+     rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a = 1−2sin²a"],["sin(2a)","2sinacosa"],["cos(π/2−x)","sin x"],["sin(π/2−x)","cos x"],["cos(−x)","cos x"],["sin(−x)","−sin x"]]},
+    {title:"Produit scalaire & géométrie",color:"#f72585",cols:["Résultat","Formule"],
+     rows:[["Produit scalaire (coord.)","u⃗·v⃗ = xx' + yy'"],["Norme","|u⃗|² = x²+y²"],["Perpendicularité","u⃗·v⃗ = 0"],["Al Kashi","a² = b² + c² − 2bc·cos(A)"],["Distance pt/droite","|axₐ+byₐ+c|/√(a²+b²)"],["Cercle","(x−a)²+(y−b)²=r²"],["|u⃗+v⃗|²","|u⃗|²+2u⃗·v⃗+|v⃗|²"]]},
+    {title:"Probabilités",color:"#ffd166",cols:["Résultat","Formule"],
+     rows:[["P(B|A)","P(A∩B)/P(A)"],["P(A∩B)","P(A)·P(B|A)"],["Probas totales","P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"],["Indépendance","P(A∩B)=P(A)·P(B)"],["Formule de Bayes","P(A|B)=P(B|A)·P(A)/P(B)"]]},
+  ];
+  
+  // ══════════════════════════════════
+  // TABS
+  // ══════════════════════════════════
+  function showTab(id,btn){document.querySelectorAll('.tab-section').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
+  script>
 </body>
 </html>
