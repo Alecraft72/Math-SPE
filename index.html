@@ -1479,57 +1479,6 @@ function launchApp(code, isNew, isAdmin) {
 }
 
 // ── CHAPTERS DATA ──
-const flashcards=[
-  {cat:"Second degré",q:"Discriminant de ax²+bx+c ?",a:"Δ = b² − 4ac"},
-  {cat:"Second degré",q:"Racines si Δ > 0 ?",a:"x = (−b ± √Δ) / (2a)"},
-  {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α=−b/2a"},
-  {cat:"Second degré",q:"Somme et produit des racines ?",a:"x₁+x₂=−b/a  ;  x₁x₂=c/a"},
-  {cat:"Suites",q:"Terme général arithmétique ?",a:"uₙ = u₀ + n·r"},
-  {cat:"Suites",q:"Terme général géométrique ?",a:"uₙ = u₀ × qⁿ"},
-  {cat:"Suites",q:"Somme arithmétique (n+1 termes) ?",a:"S = (n+1)(u₀+uₙ)/2"},
-  {cat:"Suites",q:"Somme géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
-  {cat:"Suites",q:"3 étapes de la récurrence ?",a:"1.Init  2.Hérédité  3.Conclusion"},
-  {cat:"Dérivation",q:"Dérivée de xⁿ ?",a:"nxⁿ⁻¹"},
-  {cat:"Dérivation",q:"Dérivée de √x ?",a:"1/(2√x)"},
-  {cat:"Dérivation",q:"Dérivée de (uv) ?",a:"u'v + uv'"},
-  {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v−uv')/v²"},
-  {cat:"Dérivation",q:"Équation tangente en a ?",a:"y = f'(a)(x−a)+f(a)"},
-  {cat:"Dérivation",q:"f'(x)>0 implique ?",a:"f strictement croissante"},
-  {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ"},
-  {cat:"Exponentielle",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
-  {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0"},
-  {cat:"Exponentielle",q:"eˣ⁺ʸ = ?",a:"eˣ × eʸ"},
-  {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1"},
-  {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a"},
-  {cat:"Trigonométrie",q:"sin(2a) = ?",a:"2·sin(a)·cos(a)"},
-  {cat:"Trigonométrie",q:"Dérivée de sin(x) ?",a:"cos(x)"},
-  {cat:"Trigonométrie",q:"Dérivée de cos(x) ?",a:"−sin(x)"},
-  {cat:"Trigonométrie",q:"Période de sin et cos ?",a:"2π"},
-  {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx'+yy'"},
-  {cat:"Produit scalaire",q:"u⃗⊥v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
-  {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|²+2u⃗·v⃗+|v⃗|²"},
-  {cat:"Probabilités",q:"P(A|B) = ?",a:"P(A∩B)/P(B)"},
-  {cat:"Probabilités",q:"Formule des probas totales ?",a:"P(A)=Σ P(A|Bᵢ)·P(Bᵢ)"},
-  {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B)=P(A)·P(B)"},
-  {cat:"Variables aléatoires",q:"P(X=k) pour B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
-  {cat:"Variables aléatoires",q:"E(X) pour B(n,p) ?",a:"np"},
-  {cat:"Variables aléatoires",q:"V(X) pour B(n,p) ?",a:"np(1−p)"},
-  {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X)+b"},
-  {cat:"Variables aléatoires",q:"V(aX+b) = ?",a:"a²·V(X)"},
-  {cat:"Géométrie",q:"Vecteurs colinéaires ?",a:"ad−bc=0"},
-  {cat:"Géométrie",q:"Distance A à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
-  {cat:"Géométrie",q:"Cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
-  {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
-];
-
-const recapTables=[
-  {title:"Dérivées",color:"#2a9d8f",cols:["f(x)","f'(x)"],rows:[["xⁿ","nxⁿ⁻¹"],["√x","1/(2√x)"],["1/x","−1/x²"],["eˣ","eˣ"],["ln x","1/x"],["sin x","cos x"],["cos x","−sin x"],["eᵘ","u'eᵘ"],["ln u","u'/u"],["sin u","u'cos u"],["cos u","−u'sin u"]]},
-  {title:"Second degré",color:"#e63946",cols:["Grandeur","Formule"],rows:[["Δ","b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Double (Δ=0)","−b/2a"],["Canonique","a(x−α)²+β"],["x₁+x₂","−b/a"],["x₁×x₂","c/a"]]},
-  {title:"Loi binomiale",color:"#ef476f",cols:["Grandeur","Formule"],rows:[["P(X=k)","C(n,k)pᵏ(1−p)ⁿ⁻ᵏ"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","aE(X)+b"],["V(aX+b)","a²V(X)"]]},
-  {title:"Trigonométrie",color:"#9b5de5",cols:["Formule","Résultat"],rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a"],["sin(2a)","2sinacosa"]]},
-  {title:"Suites",color:"#f4a261",cols:["Type","Formule"],rows:[["Arith. terme","u₀+n·r"],["Arith. somme","(n+1)(u₀+uₙ)/2"],["Géom. terme","u₀·qⁿ"],["Géom. somme","u₀(1−qⁿ⁺¹)/(1−q)"]]},
-];
-
 function buildApp(){
   // Chapters
   const cl=document.getElementById('chapters-list');
@@ -2824,109 +2773,110 @@ chapters.forEach(ch => {
   main.appendChild(wrap);
 });
 
-// ══════════════════════════════════
-// FLASHCARDS — 60 cartes
-// ══════════════════════════════════
-const flashcards = [
-  // Second degré
-  {cat:"Second degré",q:"Discriminant de ax²+bx+c ?",a:"Δ = b² − 4ac"},
-  {cat:"Second degré",q:"Racines si Δ > 0 ?",a:"x = (−b ± √Δ) / (2a)"},
-  {cat:"Second degré",q:"Racine double si Δ = 0 ?",a:"x₀ = −b/(2a)"},
-  {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α = −b/(2a), β=f(α)"},
-  {cat:"Second degré",q:"Somme des racines ?",a:"x₁+x₂ = −b/a"},
-  {cat:"Second degré",q:"Produit des racines ?",a:"x₁×x₂ = c/a"},
-  {cat:"Second degré",q:"Signe du trinôme si a>0, Δ>0 entre les racines ?",a:"f(x) < 0  ⟺  x₁ < x < x₂"},
-  // Suites
-  {cat:"Suites",q:"Terme général suite arithmétique (raison r) ?",a:"uₙ = u₀ + n·r"},
-  {cat:"Suites",q:"Terme général suite géométrique (raison q) ?",a:"uₙ = u₀ × qⁿ"},
-  {cat:"Suites",q:"Somme de n+1 termes d'une suite arithmétique ?",a:"S = (n+1)(u₀+uₙ)/2"},
-  {cat:"Suites",q:"Somme de n+1 termes d'une suite géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
-  {cat:"Suites",q:"3 étapes du raisonnement par récurrence ?",a:"1. Initialisation  2. Hérédité  3. Conclusion"},
-  {cat:"Suites",q:"Suite arithmétique croissante ⟺ ?",a:"r > 0"},
-  {cat:"Suites",q:"Suite géométrique décroissante (u₀>0) ⟺ ?",a:"0 < q < 1"},
-  {cat:"Suites",q:"Comment étudier les variations ? (méthode 1)",a:"Calculer le signe de uₙ₊₁ − uₙ"},
-  // Dérivation
-  {cat:"Dérivation",q:"Nombre dérivé f'(a) = ?",a:"lim [f(a+h)−f(a)]/h  (h→0)"},
-  {cat:"Dérivation",q:"Équation de la tangente en x=a ?",a:"y = f'(a)(x−a) + f(a)"},
-  {cat:"Dérivation",q:"Dérivée de xⁿ ?",a:"nxⁿ⁻¹"},
-  {cat:"Dérivation",q:"Dérivée de √x ?",a:"1/(2√x)"},
-  {cat:"Dérivation",q:"Dérivée de 1/x ?",a:"−1/x²"},
-  {cat:"Dérivation",q:"Dérivée de (uv) ?",a:"u'v + uv'"},
-  {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v − uv') / v²"},
-  {cat:"Dérivation",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
-  {cat:"Dérivation",q:"Dérivée de ln(u) ?",a:"u'/u"},
-  {cat:"Dérivation",q:"Dérivée de f(ax+b) ?",a:"a·f'(ax+b)"},
-  {cat:"Dérivation",q:"f'(x) > 0 sur I implique ?",a:"f strictement croissante sur I"},
-  {cat:"Dérivation",q:"f'(a)=0 et f' change +→− implique ?",a:"Maximum local de f en a"},
-  // Exponentielle
-  {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ  (sa propre dérivée)"},
-  {cat:"Exponentielle",q:"eˣ⁺ʸ = ?",a:"eˣ × eʸ"},
-  {cat:"Exponentielle",q:"e⁻ˣ = ?",a:"1/eˣ"},
-  {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0  (par valeurs positives)"},
-  {cat:"Exponentielle",q:"lim eˣ/xⁿ quand x→+∞ ?",a:"+∞  (exp domine tout polynôme)"},
-  {cat:"Exponentielle",q:"eˣ = eʸ ⟺ ?",a:"x = y"},
-  // Trigonométrie
-  {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1  (identité de Pythagore)"},
-  {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a = 2cos²a−1"},
-  {cat:"Trigonométrie",q:"sin(2a) = ?",a:"2·sin(a)·cos(a)"},
-  {cat:"Trigonométrie",q:"Dérivée de sin(x) ?",a:"cos(x)"},
-  {cat:"Trigonométrie",q:"Dérivée de cos(x) ?",a:"−sin(x)"},
-  {cat:"Trigonométrie",q:"Période de sin et cos ?",a:"2π"},
-  {cat:"Trigonométrie",q:"cos(π/3) et sin(π/3) ?",a:"cos=1/2  ;  sin=√3/2"},
-  {cat:"Trigonométrie",q:"cos(π/4) et sin(π/4) ?",a:"cos=sin=√2/2"},
-  {cat:"Trigonométrie",q:"Résoudre cos(x)=cos(a) ?",a:"x = ±a + 2kπ  (k∈ℤ)"},
-  {cat:"Trigonométrie",q:"Résoudre sin(x)=sin(a) ?",a:"x = a+2kπ  ou  x = π−a+2kπ"},
-  // Produit scalaire
-  {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx' + yy'"},
-  {cat:"Produit scalaire",q:"u⃗ ⊥ v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
-  {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|² + 2u⃗·v⃗ + |v⃗|²"},
-  {cat:"Produit scalaire",q:"Théorème d'Al Kashi ?",a:"a² = b² + c² − 2bc·cos(A)"},
-  {cat:"Produit scalaire",q:"Distance de A(xₐ;yₐ) à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
-  // Géométrie
-  {cat:"Géométrie",q:"Vecteurs colinéaires : condition ?",a:"xy' − yx' = 0  (déterminant nul)"},
-  {cat:"Géométrie",q:"Vecteur normal de ax+by+c=0 ?",a:"n⃗(a ; b)"},
-  {cat:"Géométrie",q:"Équation du cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
-  {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
-  // Probabilités
-  {cat:"Probabilités",q:"P(B|A) = ?",a:"P(A∩B)/P(A)"},
-  {cat:"Probabilités",q:"Formule des probabilités totales ?",a:"P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"},
-  {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B) = P(A)·P(B)"},
-  {cat:"Probabilités",q:"P(B̄|A) = ?",a:"1 − P(B|A)"},
-  // Variables aléatoires
-  {cat:"Variables aléatoires",q:"P(X=k) pour X~B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
-  {cat:"Variables aléatoires",q:"E(X) pour X~B(n,p) ?",a:"np"},
-  {cat:"Variables aléatoires",q:"V(X) pour X~B(n,p) ?",a:"np(1−p)"},
-  {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X) + b"},
-  {cat:"Variables aléatoires",q:"V(aX+b) = ?",a:"a²·V(X)"},
-  {cat:"Variables aléatoires",q:"Formule de König pour V(X) ?",a:"V(X) = E(X²) − [E(X)]²"},
-];
-
-// ══════════════════════════════════
-// TABLEAUX DE FORMULES — 8 blocs
-// ══════════════════════════════════
-const recapTables = [
-  {title:"Dérivées usuelles",color:"#2a9d8f",cols:["f(x)","f'(x)","Domaine"],
-   rows:[["k","0","ℝ"],["xⁿ","nxⁿ⁻¹","ℝ"],["√x","1/(2√x)","]0;+∞["],["1/x","−1/x²","ℝ\{0}"],["eˣ","eˣ","ℝ"],["ln x","1/x","]0;+∞["],["sin x","cos x","ℝ"],["cos x","−sin x","ℝ"]]},
-  {title:"Dérivées composées",color:"#4895ef",cols:["Fonction","Dérivée"],
-   rows:[["eᵘ","u'·eᵘ"],["ln u","u'/u"],["uⁿ","n·u'·uⁿ⁻¹"],["√u","u'/(2√u)"],["sin u","u'·cos u"],["cos u","−u'·sin u"],["f(ax+b)","a·f'(ax+b)"]]},
-  {title:"Second degré — formulaire",color:"#e63946",cols:["Grandeur","Formule"],
-   rows:[["Discriminant","Δ = b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Racine double (Δ=0)","−b/(2a)"],["Forme canonique","a(x−α)²+β, α = −b/(2a)"],["Somme x₁+x₂","−b/a"],["Produit x₁×x₂","c/a"],["Sommet parabole","(−b/(2a) ; −Δ/4a)"]]},
-  {title:"Suites — synthèse",color:"#f4a261",cols:["Type","Formule"],
-   rows:[["Arith. — terme général","uₙ = u₀ + n·r"],["Arith. — somme (n+1 termes)","(n+1)(u₀+uₙ)/2"],["Géom. — terme général","uₙ = u₀ × qⁿ"],["Géom. — somme (q≠1)","u₀(1−qⁿ⁺¹)/(1−q)"],["Croissante","uₙ₊₁ − uₙ ≥ 0"],["Bornée + monotone","→ converge"]]},
-  {title:"Loi binomiale B(n,p)",color:"#ef476f",cols:["Grandeur","Formule"],
-   rows:[["P(X=k)","C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"],["C(n,k)","n!/(k!(n−k)!)"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","a·E(X)+b"],["V(aX+b)","a²·V(X)"]]},
-  {title:"Trigonométrie — valeurs et formules",color:"#9b5de5",cols:["Formule","Résultat/Développement"],
-   rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a = 1−2sin²a"],["sin(2a)","2sinacosa"],["cos(π/2−x)","sin x"],["sin(π/2−x)","cos x"],["cos(−x)","cos x"],["sin(−x)","−sin x"]]},
-  {title:"Produit scalaire & géométrie",color:"#f72585",cols:["Résultat","Formule"],
-   rows:[["Produit scalaire (coord.)","u⃗·v⃗ = xx' + yy'"],["Norme","|u⃗|² = x²+y²"],["Perpendicularité","u⃗·v⃗ = 0"],["Al Kashi","a² = b² + c² − 2bc·cos(A)"],["Distance pt/droite","|axₐ+byₐ+c|/√(a²+b²)"],["Cercle","(x−a)²+(y−b)²=r²"],["|u⃗+v⃗|²","|u⃗|²+2u⃗·v⃗+|v⃗|²"]]},
-  {title:"Probabilités",color:"#ffd166",cols:["Résultat","Formule"],
-   rows:[["P(B|A)","P(A∩B)/P(A)"],["P(A∩B)","P(A)·P(B|A)"],["Probas totales","P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"],["Indépendance","P(A∩B)=P(A)·P(B)"],["Formule de Bayes","P(A|B)=P(B|A)·P(A)/P(B)"]]},
-];
-
-// ══════════════════════════════════
-// TABS
-// ══════════════════════════════════
-function showTab(id,btn){document.querySelectorAll('.tab-section').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
-</script>
+</
+  // ══════════════════════════════════
+  // FLASHCARDS — 60 cartes
+  // ══════════════════════════════════
+  const flashcards = [
+    // Second degré
+    {cat:"Second degré",q:"Discriminant de ax²+bx+c ?",a:"Δ = b² − 4ac"},
+    {cat:"Second degré",q:"Racines si Δ > 0 ?",a:"x = (−b ± √Δ) / (2a)"},
+    {cat:"Second degré",q:"Racine double si Δ = 0 ?",a:"x₀ = −b/(2a)"},
+    {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α = −b/(2a), β=f(α)"},
+    {cat:"Second degré",q:"Somme des racines ?",a:"x₁+x₂ = −b/a"},
+    {cat:"Second degré",q:"Produit des racines ?",a:"x₁×x₂ = c/a"},
+    {cat:"Second degré",q:"Signe du trinôme si a>0, Δ>0 entre les racines ?",a:"f(x) < 0  ⟺  x₁ < x < x₂"},
+    // Suites
+    {cat:"Suites",q:"Terme général suite arithmétique (raison r) ?",a:"uₙ = u₀ + n·r"},
+    {cat:"Suites",q:"Terme général suite géométrique (raison q) ?",a:"uₙ = u₀ × qⁿ"},
+    {cat:"Suites",q:"Somme de n+1 termes d'une suite arithmétique ?",a:"S = (n+1)(u₀+uₙ)/2"},
+    {cat:"Suites",q:"Somme de n+1 termes d'une suite géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
+    {cat:"Suites",q:"3 étapes du raisonnement par récurrence ?",a:"1. Initialisation  2. Hérédité  3. Conclusion"},
+    {cat:"Suites",q:"Suite arithmétique croissante ⟺ ?",a:"r > 0"},
+    {cat:"Suites",q:"Suite géométrique décroissante (u₀>0) ⟺ ?",a:"0 < q < 1"},
+    {cat:"Suites",q:"Comment étudier les variations ? (méthode 1)",a:"Calculer le signe de uₙ₊₁ − uₙ"},
+    // Dérivation
+    {cat:"Dérivation",q:"Nombre dérivé f'(a) = ?",a:"lim [f(a+h)−f(a)]/h  (h→0)"},
+    {cat:"Dérivation",q:"Équation de la tangente en x=a ?",a:"y = f'(a)(x−a) + f(a)"},
+    {cat:"Dérivation",q:"Dérivée de xⁿ ?",a:"nxⁿ⁻¹"},
+    {cat:"Dérivation",q:"Dérivée de √x ?",a:"1/(2√x)"},
+    {cat:"Dérivation",q:"Dérivée de 1/x ?",a:"−1/x²"},
+    {cat:"Dérivation",q:"Dérivée de (uv) ?",a:"u'v + uv'"},
+    {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v − uv') / v²"},
+    {cat:"Dérivation",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
+    {cat:"Dérivation",q:"Dérivée de ln(u) ?",a:"u'/u"},
+    {cat:"Dérivation",q:"Dérivée de f(ax+b) ?",a:"a·f'(ax+b)"},
+    {cat:"Dérivation",q:"f'(x) > 0 sur I implique ?",a:"f strictement croissante sur I"},
+    {cat:"Dérivation",q:"f'(a)=0 et f' change +→− implique ?",a:"Maximum local de f en a"},
+    // Exponentielle
+    {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ  (sa propre dérivée)"},
+    {cat:"Exponentielle",q:"eˣ⁺ʸ = ?",a:"eˣ × eʸ"},
+    {cat:"Exponentielle",q:"e⁻ˣ = ?",a:"1/eˣ"},
+    {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0  (par valeurs positives)"},
+    {cat:"Exponentielle",q:"lim eˣ/xⁿ quand x→+∞ ?",a:"+∞  (exp domine tout polynôme)"},
+    {cat:"Exponentielle",q:"eˣ = eʸ ⟺ ?",a:"x = y"},
+    // Trigonométrie
+    {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1  (identité de Pythagore)"},
+    {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a = 2cos²a−1"},
+    {cat:"Trigonométrie",q:"sin(2a) = ?",a:"2·sin(a)·cos(a)"},
+    {cat:"Trigonométrie",q:"Dérivée de sin(x) ?",a:"cos(x)"},
+    {cat:"Trigonométrie",q:"Dérivée de cos(x) ?",a:"−sin(x)"},
+    {cat:"Trigonométrie",q:"Période de sin et cos ?",a:"2π"},
+    {cat:"Trigonométrie",q:"cos(π/3) et sin(π/3) ?",a:"cos=1/2  ;  sin=√3/2"},
+    {cat:"Trigonométrie",q:"cos(π/4) et sin(π/4) ?",a:"cos=sin=√2/2"},
+    {cat:"Trigonométrie",q:"Résoudre cos(x)=cos(a) ?",a:"x = ±a + 2kπ  (k∈ℤ)"},
+    {cat:"Trigonométrie",q:"Résoudre sin(x)=sin(a) ?",a:"x = a+2kπ  ou  x = π−a+2kπ"},
+    // Produit scalaire
+    {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx' + yy'"},
+    {cat:"Produit scalaire",q:"u⃗ ⊥ v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
+    {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|² + 2u⃗·v⃗ + |v⃗|²"},
+    {cat:"Produit scalaire",q:"Théorème d'Al Kashi ?",a:"a² = b² + c² − 2bc·cos(A)"},
+    {cat:"Produit scalaire",q:"Distance de A(xₐ;yₐ) à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
+    // Géométrie
+    {cat:"Géométrie",q:"Vecteurs colinéaires : condition ?",a:"xy' − yx' = 0  (déterminant nul)"},
+    {cat:"Géométrie",q:"Vecteur normal de ax+by+c=0 ?",a:"n⃗(a ; b)"},
+    {cat:"Géométrie",q:"Équation du cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
+    {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
+    // Probabilités
+    {cat:"Probabilités",q:"P(B|A) = ?",a:"P(A∩B)/P(A)"},
+    {cat:"Probabilités",q:"Formule des probabilités totales ?",a:"P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"},
+    {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B) = P(A)·P(B)"},
+    {cat:"Probabilités",q:"P(B̄|A) = ?",a:"1 − P(B|A)"},
+    // Variables aléatoires
+    {cat:"Variables aléatoires",q:"P(X=k) pour X~B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
+    {cat:"Variables aléatoires",q:"E(X) pour X~B(n,p) ?",a:"np"},
+    {cat:"Variables aléatoires",q:"V(X) pour X~B(n,p) ?",a:"np(1−p)"},
+    {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X) + b"},
+    {cat:"Variables aléatoires",q:"V(aX+b) = ?",a:"a²·V(X)"},
+    {cat:"Variables aléatoires",q:"Formule de König pour V(X) ?",a:"V(X) = E(X²) − [E(X)]²"},
+  ];
+  
+  // ══════════════════════════════════
+  // TABLEAUX DE FORMULES — 8 blocs
+  // ══════════════════════════════════
+  const recapTables = [
+    {title:"Dérivées usuelles",color:"#2a9d8f",cols:["f(x)","f'(x)","Domaine"],
+     rows:[["k","0","ℝ"],["xⁿ","nxⁿ⁻¹","ℝ"],["√x","1/(2√x)","]0;+∞["],["1/x","−1/x²","ℝ\{0}"],["eˣ","eˣ","ℝ"],["ln x","1/x","]0;+∞["],["sin x","cos x","ℝ"],["cos x","−sin x","ℝ"]]},
+    {title:"Dérivées composées",color:"#4895ef",cols:["Fonction","Dérivée"],
+     rows:[["eᵘ","u'·eᵘ"],["ln u","u'/u"],["uⁿ","n·u'·uⁿ⁻¹"],["√u","u'/(2√u)"],["sin u","u'·cos u"],["cos u","−u'·sin u"],["f(ax+b)","a·f'(ax+b)"]]},
+    {title:"Second degré — formulaire",color:"#e63946",cols:["Grandeur","Formule"],
+     rows:[["Discriminant","Δ = b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Racine double (Δ=0)","−b/(2a)"],["Forme canonique","a(x−α)²+β, α = −b/(2a)"],["Somme x₁+x₂","−b/a"],["Produit x₁×x₂","c/a"],["Sommet parabole","(−b/(2a) ; −Δ/4a)"]]},
+    {title:"Suites — synthèse",color:"#f4a261",cols:["Type","Formule"],
+     rows:[["Arith. — terme général","uₙ = u₀ + n·r"],["Arith. — somme (n+1 termes)","(n+1)(u₀+uₙ)/2"],["Géom. — terme général","uₙ = u₀ × qⁿ"],["Géom. — somme (q≠1)","u₀(1−qⁿ⁺¹)/(1−q)"],["Croissante","uₙ₊₁ − uₙ ≥ 0"],["Bornée + monotone","→ converge"]]},
+    {title:"Loi binomiale B(n,p)",color:"#ef476f",cols:["Grandeur","Formule"],
+     rows:[["P(X=k)","C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"],["C(n,k)","n!/(k!(n−k)!)"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","a·E(X)+b"],["V(aX+b)","a²·V(X)"]]},
+    {title:"Trigonométrie — valeurs et formules",color:"#9b5de5",cols:["Formule","Résultat/Développement"],
+     rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a = 1−2sin²a"],["sin(2a)","2sinacosa"],["cos(π/2−x)","sin x"],["sin(π/2−x)","cos x"],["cos(−x)","cos x"],["sin(−x)","−sin x"]]},
+    {title:"Produit scalaire & géométrie",color:"#f72585",cols:["Résultat","Formule"],
+     rows:[["Produit scalaire (coord.)","u⃗·v⃗ = xx' + yy'"],["Norme","|u⃗|² = x²+y²"],["Perpendicularité","u⃗·v⃗ = 0"],["Al Kashi","a² = b² + c² − 2bc·cos(A)"],["Distance pt/droite","|axₐ+byₐ+c|/√(a²+b²)"],["Cercle","(x−a)²+(y−b)²=r²"],["|u⃗+v⃗|²","|u⃗|²+2u⃗·v⃗+|v⃗|²"]]},
+    {title:"Probabilités",color:"#ffd166",cols:["Résultat","Formule"],
+     rows:[["P(B|A)","P(A∩B)/P(A)"],["P(A∩B)","P(A)·P(B|A)"],["Probas totales","P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"],["Indépendance","P(A∩B)=P(A)·P(B)"],["Formule de Bayes","P(A|B)=P(B|A)·P(A)/P(B)"]]},
+  ];
+  
+  // ══════════════════════════════════
+  // TABS
+  // ══════════════════════════════════
+  function showTab(id,btn){document.querySelectorAll('.tab-section').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
+  script>
 </body>
 </html>
