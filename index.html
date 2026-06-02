@@ -297,6 +297,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
   </div>
 </div>
 
+<a href="admin.html" style="position:fixed;bottom:24px;right:24px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;z-index:999" title="Admin">👑</a>
+
 <div id="app">
 </head>
 <body>
@@ -544,8 +546,6 @@ function tryLogin() {
   launchApp(code, isNew, false);
 }
 
-
-
 function showErr(msg) { document.getElementById('login-error').textContent = msg; }
 function shake() {
   const i = document.getElementById('code-input');
@@ -554,69 +554,21 @@ function shake() {
 }
 
 let appBuilt = false;
+
+function logout() {
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
 function launchApp(code, isNew, isAdmin) {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   document.getElementById('hdr-user').textContent = isAdmin ? '👑 Admin' : (isNew ? '🔑 Accès activé' : '✅ Connecté');
+  if(isAdmin) document.getElementById('logout-wrap').style.display = 'block';
   if(!appBuilt) { appBuilt=true; buildApp(); }
 }
 
 // ── CHAPTERS DATA ──
-const flashcards=[
-  {cat:"Second degré",q:"Discriminant de ax²+bx+c ?",a:"Δ = b² − 4ac"},
-  {cat:"Second degré",q:"Racines si Δ > 0 ?",a:"x = (−b ± √Δ) / (2a)"},
-  {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α=−b/2a"},
-  {cat:"Second degré",q:"Somme et produit des racines ?",a:"x₁+x₂=−b/a  ;  x₁x₂=c/a"},
-  {cat:"Suites",q:"Terme général arithmétique ?",a:"uₙ = u₀ + n·r"},
-  {cat:"Suites",q:"Terme général géométrique ?",a:"uₙ = u₀ × qⁿ"},
-  {cat:"Suites",q:"Somme arithmétique (n+1 termes) ?",a:"S = (n+1)(u₀+uₙ)/2"},
-  {cat:"Suites",q:"Somme géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
-  {cat:"Suites",q:"3 étapes de la récurrence ?",a:"1.Init  2.Hérédité  3.Conclusion"},
-  {cat:"Dérivation",q:"Dérivée de xⁿ ?",a:"nxⁿ⁻¹"},
-  {cat:"Dérivation",q:"Dérivée de √x ?",a:"1/(2√x)"},
-  {cat:"Dérivation",q:"Dérivée de (uv) ?",a:"u'v + uv'"},
-  {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v−uv')/v²"},
-  {cat:"Dérivation",q:"Équation tangente en a ?",a:"y = f'(a)(x−a)+f(a)"},
-  {cat:"Dérivation",q:"f'(x)>0 implique ?",a:"f strictement croissante"},
-  {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ"},
-  {cat:"Exponentielle",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
-  {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0"},
-  {cat:"Exponentielle",q:"eˣ⁺ʸ = ?",a:"eˣ × eʸ"},
-  {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1"},
-  {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a"},
-  {cat:"Trigonométrie",q:"sin(2a) = ?",a:"2·sin(a)·cos(a)"},
-  {cat:"Trigonométrie",q:"Dérivée de sin(x) ?",a:"cos(x)"},
-  {cat:"Trigonométrie",q:"Dérivée de cos(x) ?",a:"−sin(x)"},
-  {cat:"Trigonométrie",q:"Période de sin et cos ?",a:"2π"},
-  {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx'+yy'"},
-  {cat:"Produit scalaire",q:"u⃗⊥v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
-  {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|²+2u⃗·v⃗+|v⃗|²"},
-  {cat:"Probabilités",q:"P(A|B) = ?",a:"P(A∩B)/P(B)"},
-  {cat:"Probabilités",q:"Formule des probas totales ?",a:"P(A)=Σ P(A|Bᵢ)·P(Bᵢ)"},
-  {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B)=P(A)·P(B)"},
-  {cat:"Variables aléatoires",q:"P(X=k) pour B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
-  {cat:"Variables aléatoires",q:"E(X) pour B(n,p) ?",a:"np"},
-  {cat:"Variables aléatoires",q:"V(X) pour B(n,p) ?",a:"np(1−p)"},
-  {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X)+b"},
-  {cat:"Variables aléatoires",q:"V(aX+b) = ?",a:"a²·V(X)"},
-  {cat:"Géométrie",q:"Vecteurs colinéaires ?",a:"ad−bc=0"},
-  {cat:"Géométrie",q:"Distance A à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
-  {cat:"Géométrie",q:"Cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
-  {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
-];
-
-const recapTables=[
-  {title:"Dérivées",color:"#2a9d8f",cols:["f(x)","f'(x)"],rows:[["xⁿ","nxⁿ⁻¹"],["√x","1/(2√x)"],["1/x","−1/x²"],["eˣ","eˣ"],["ln x","1/x"],["sin x","cos x"],["cos x","−sin x"],["eᵘ","u'eᵘ"],["ln u","u'/u"],["sin u","u'cos u"],["cos u","−u'sin u"]]},
-  {title:"Second degré",color:"#e63946",cols:["Grandeur","Formule"],rows:[["Δ","b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Double (Δ=0)","−b/2a"],["Canonique","a(x−α)²+β"],["x₁+x₂","−b/a"],["x₁×x₂","c/a"]]},
-  {title:"Loi binomiale",color:"#ef476f",cols:["Grandeur","Formule"],rows:[["P(X=k)","C(n,k)pᵏ(1−p)ⁿ⁻ᵏ"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","aE(X)+b"],["V(aX+b)","a²V(X)"]]},
-  {title:"Trigonométrie",color:"#9b5de5",cols:["Formule","Résultat"],rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a"],["sin(2a)","2sinacosa"]]},
-  {title:"Suites",color:"#f4a261",cols:["Type","Formule"],rows:[["Arith. terme","u₀+n·r"],["Arith. somme","(n+1)(u₀+uₙ)/2"],["Géom. terme","u₀·qⁿ"],["Géom. somme","u₀(1−qⁿ⁺¹)/(1−q)"]]},
-];
-
-function buildApp() {
-  if(appBuilt) return;
-  appBuilt = true;
-
 const chapters = [
   {
     id:1, title:"Second degré", tag:"ALGÈBRE · Ch.1/2 + Ch.2/2", color:"#e63946", icon:"²",
@@ -1734,607 +1686,95 @@ chapters.forEach(ch => {
 
 // ══════════════════════════════════
 // FLASHCARDS — 60 cartes
-// ══════════════════════════════════;
-
-const flashcards = [
-  // Second degré
+// ══════════════════════════════════
+const flashcards=[
   {cat:"Second degré",q:"Discriminant de ax²+bx+c ?",a:"Δ = b² − 4ac"},
   {cat:"Second degré",q:"Racines si Δ > 0 ?",a:"x = (−b ± √Δ) / (2a)"},
-  {cat:"Second degré",q:"Racine double si Δ = 0 ?",a:"x₀ = −b/(2a)"},
-  {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α = −b/(2a), β=f(α)"},
-  {cat:"Second degré",q:"Somme des racines ?",a:"x₁+x₂ = −b/a"},
-  {cat:"Second degré",q:"Produit des racines ?",a:"x₁×x₂ = c/a"},
-  {cat:"Second degré",q:"Signe du trinôme si a>0, Δ>0 entre les racines ?",a:"f(x) < 0  ⟺  x₁ < x < x₂"},
-  // Suites
-  {cat:"Suites",q:"Terme général suite arithmétique (raison r) ?",a:"uₙ = u₀ + n·r"},
-  {cat:"Suites",q:"Terme général suite géométrique (raison q) ?",a:"uₙ = u₀ × qⁿ"},
-  {cat:"Suites",q:"Somme de n+1 termes d'une suite arithmétique ?",a:"S = (n+1)(u₀+uₙ)/2"},
-  {cat:"Suites",q:"Somme de n+1 termes d'une suite géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
-  {cat:"Suites",q:"3 étapes du raisonnement par récurrence ?",a:"1. Initialisation  2. Hérédité  3. Conclusion"},
-  {cat:"Suites",q:"Suite arithmétique croissante ⟺ ?",a:"r > 0"},
-  {cat:"Suites",q:"Suite géométrique décroissante (u₀>0) ⟺ ?",a:"0 < q < 1"},
-  {cat:"Suites",q:"Comment étudier les variations ? (méthode 1)",a:"Calculer le signe de uₙ₊₁ − uₙ"},
-  // Dérivation
-  {cat:"Dérivation",q:"Nombre dérivé f'(a) = ?",a:"lim [f(a+h)−f(a)]/h  (h→0)"},
-  {cat:"Dérivation",q:"Équation de la tangente en x=a ?",a:"y = f'(a)(x−a) + f(a)"},
+  {cat:"Second degré",q:"Forme canonique ?",a:"a(x−α)²+β  avec α=−b/2a"},
+  {cat:"Second degré",q:"Somme et produit des racines ?",a:"x₁+x₂=−b/a  ;  x₁x₂=c/a"},
+  {cat:"Suites",q:"Terme général arithmétique ?",a:"uₙ = u₀ + n·r"},
+  {cat:"Suites",q:"Terme général géométrique ?",a:"uₙ = u₀ × qⁿ"},
+  {cat:"Suites",q:"Somme arithmétique (n+1 termes) ?",a:"S = (n+1)(u₀+uₙ)/2"},
+  {cat:"Suites",q:"Somme géométrique (q≠1) ?",a:"S = u₀(1−qⁿ⁺¹)/(1−q)"},
+  {cat:"Suites",q:"3 étapes de la récurrence ?",a:"1.Init  2.Hérédité  3.Conclusion"},
   {cat:"Dérivation",q:"Dérivée de xⁿ ?",a:"nxⁿ⁻¹"},
   {cat:"Dérivation",q:"Dérivée de √x ?",a:"1/(2√x)"},
-  {cat:"Dérivation",q:"Dérivée de 1/x ?",a:"−1/x²"},
   {cat:"Dérivation",q:"Dérivée de (uv) ?",a:"u'v + uv'"},
-  {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v − uv') / v²"},
-  {cat:"Dérivation",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
-  {cat:"Dérivation",q:"Dérivée de ln(u) ?",a:"u'/u"},
-  {cat:"Dérivation",q:"Dérivée de f(ax+b) ?",a:"a·f'(ax+b)"},
-  {cat:"Dérivation",q:"f'(x) > 0 sur I implique ?",a:"f strictement croissante sur I"},
-  {cat:"Dérivation",q:"f'(a)=0 et f' change +→− implique ?",a:"Maximum local de f en a"},
-  // Exponentielle
-  {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ  (sa propre dérivée)"},
+  {cat:"Dérivation",q:"Dérivée de (u/v) ?",a:"(u'v−uv')/v²"},
+  {cat:"Dérivation",q:"Équation tangente en a ?",a:"y = f'(a)(x−a)+f(a)"},
+  {cat:"Dérivation",q:"f'(x)>0 implique ?",a:"f strictement croissante"},
+  {cat:"Exponentielle",q:"Dérivée de eˣ ?",a:"eˣ"},
+  {cat:"Exponentielle",q:"Dérivée de eᵘ ?",a:"u'·eᵘ"},
+  {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0"},
   {cat:"Exponentielle",q:"eˣ⁺ʸ = ?",a:"eˣ × eʸ"},
-  {cat:"Exponentielle",q:"e⁻ˣ = ?",a:"1/eˣ"},
-  {cat:"Exponentielle",q:"lim eˣ quand x→−∞ ?",a:"0  (par valeurs positives)"},
-  {cat:"Exponentielle",q:"lim eˣ/xⁿ quand x→+∞ ?",a:"+∞  (exp domine tout polynôme)"},
-  {cat:"Exponentielle",q:"eˣ = eʸ ⟺ ?",a:"x = y"},
-  // Trigonométrie
-  {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1  (identité de Pythagore)"},
-  {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a = 2cos²a−1"},
+  {cat:"Trigonométrie",q:"cos²x + sin²x = ?",a:"1"},
+  {cat:"Trigonométrie",q:"cos(2a) = ?",a:"cos²a−sin²a = 1−2sin²a"},
   {cat:"Trigonométrie",q:"sin(2a) = ?",a:"2·sin(a)·cos(a)"},
   {cat:"Trigonométrie",q:"Dérivée de sin(x) ?",a:"cos(x)"},
   {cat:"Trigonométrie",q:"Dérivée de cos(x) ?",a:"−sin(x)"},
   {cat:"Trigonométrie",q:"Période de sin et cos ?",a:"2π"},
-  {cat:"Trigonométrie",q:"cos(π/3) et sin(π/3) ?",a:"cos=1/2  ;  sin=√3/2"},
-  {cat:"Trigonométrie",q:"cos(π/4) et sin(π/4) ?",a:"cos=sin=√2/2"},
-  {cat:"Trigonométrie",q:"Résoudre cos(x)=cos(a) ?",a:"x = ±a + 2kπ  (k∈ℤ)"},
-  {cat:"Trigonométrie",q:"Résoudre sin(x)=sin(a) ?",a:"x = a+2kπ  ou  x = π−a+2kπ"},
-  // Produit scalaire
-  {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx' + yy'"},
-  {cat:"Produit scalaire",q:"u⃗ ⊥ v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
-  {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|² + 2u⃗·v⃗ + |v⃗|²"},
-  {cat:"Produit scalaire",q:"Théorème d'Al Kashi ?",a:"a² = b² + c² − 2bc·cos(A)"},
-  {cat:"Produit scalaire",q:"Distance de A(xₐ;yₐ) à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
-  // Géométrie
-  {cat:"Géométrie",q:"Vecteurs colinéaires : condition ?",a:"xy' − yx' = 0  (déterminant nul)"},
-  {cat:"Géométrie",q:"Vecteur normal de ax+by+c=0 ?",a:"n⃗(a ; b)"},
-  {cat:"Géométrie",q:"Équation du cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
-  {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
-  // Probabilités
-  {cat:"Probabilités",q:"P(B|A) = ?",a:"P(A∩B)/P(A)"},
-  {cat:"Probabilités",q:"Formule des probabilités totales ?",a:"P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"},
-  {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B) = P(A)·P(B)"},
-  {cat:"Probabilités",q:"P(B̄|A) = ?",a:"1 − P(B|A)"},
-  // Variables aléatoires
-  {cat:"Variables aléatoires",q:"P(X=k) pour X~B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
-  {cat:"Variables aléatoires",q:"E(X) pour X~B(n,p) ?",a:"np"},
-  {cat:"Variables aléatoires",q:"V(X) pour X~B(n,p) ?",a:"np(1−p)"},
-  {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X) + b"},
+  {cat:"Produit scalaire",q:"Produit scalaire en coordonnées ?",a:"u⃗·v⃗ = xx'+yy'"},
+  {cat:"Produit scalaire",q:"u⃗⊥v⃗ ⟺ ?",a:"u⃗·v⃗ = 0"},
+  {cat:"Produit scalaire",q:"|u⃗+v⃗|² = ?",a:"|u⃗|²+2u⃗·v⃗+|v⃗|²"},
+  {cat:"Probabilités",q:"P(A|B) = ?",a:"P(A∩B)/P(B)"},
+  {cat:"Probabilités",q:"Formule des probas totales ?",a:"P(A)=Σ P(A|Bᵢ)·P(Bᵢ)"},
+  {cat:"Probabilités",q:"A et B indépendants ⟺ ?",a:"P(A∩B)=P(A)·P(B)"},
+  {cat:"Variables aléatoires",q:"P(X=k) pour B(n,p) ?",a:"C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"},
+  {cat:"Variables aléatoires",q:"E(X) pour B(n,p) ?",a:"np"},
+  {cat:"Variables aléatoires",q:"V(X) pour B(n,p) ?",a:"np(1−p)"},
+  {cat:"Variables aléatoires",q:"E(aX+b) = ?",a:"a·E(X)+b"},
   {cat:"Variables aléatoires",q:"V(aX+b) = ?",a:"a²·V(X)"},
-  {cat:"Variables aléatoires",q:"Formule de König pour V(X) ?",a:"V(X) = E(X²) − [E(X)]²"},
+  {cat:"Géométrie",q:"Vecteurs colinéaires ?",a:"ad−bc=0"},
+  {cat:"Géométrie",q:"Distance A à ax+by+c=0 ?",a:"|axₐ+byₐ+c|/√(a²+b²)"},
+  {cat:"Géométrie",q:"Cercle centre Ω(a;b) rayon r ?",a:"(x−a)²+(y−b)²=r²"},
+  {cat:"Géométrie",q:"Milieu de [AB] ?",a:"((xA+xB)/2 ; (yA+yB)/2)"},
 ];
 
-// ══════════════════════════════════
-// TABLEAUX DE FORMULES — 8 blocs
-// ══════════════════════════════════;
-
-const recapTables = [
-  {title:"Dérivées usuelles",color:"#2a9d8f",cols:["f(x)","f'(x)","Domaine"],
-   rows:[["k","0","ℝ"],["xⁿ","nxⁿ⁻¹","ℝ"],["√x","1/(2√x)","]0;+∞["],["1/x","−1/x²","ℝ\{0}"],["eˣ","eˣ","ℝ"],["ln x","1/x","]0;+∞["],["sin x","cos x","ℝ"],["cos x","−sin x","ℝ"]]},
-  {title:"Dérivées composées",color:"#4895ef",cols:["Fonction","Dérivée"],
-   rows:[["eᵘ","u'·eᵘ"],["ln u","u'/u"],["uⁿ","n·u'·uⁿ⁻¹"],["√u","u'/(2√u)"],["sin u","u'·cos u"],["cos u","−u'·sin u"],["f(ax+b)","a·f'(ax+b)"]]},
-  {title:"Second degré — formulaire",color:"#e63946",cols:["Grandeur","Formule"],
-   rows:[["Discriminant","Δ = b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Racine double (Δ=0)","−b/(2a)"],["Forme canonique","a(x−α)²+β, α = −b/(2a)"],["Somme x₁+x₂","−b/a"],["Produit x₁×x₂","c/a"],["Sommet parabole","(−b/(2a) ; −Δ/4a)"]]},
-  {title:"Suites — synthèse",color:"#f4a261",cols:["Type","Formule"],
-   rows:[["Arith. — terme général","uₙ = u₀ + n·r"],["Arith. — somme (n+1 termes)","(n+1)(u₀+uₙ)/2"],["Géom. — terme général","uₙ = u₀ × qⁿ"],["Géom. — somme (q≠1)","u₀(1−qⁿ⁺¹)/(1−q)"],["Croissante","uₙ₊₁ − uₙ ≥ 0"],["Bornée + monotone","→ converge"]]},
-  {title:"Loi binomiale B(n,p)",color:"#ef476f",cols:["Grandeur","Formule"],
-   rows:[["P(X=k)","C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ"],["C(n,k)","n!/(k!(n−k)!)"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","a·E(X)+b"],["V(aX+b)","a²·V(X)"]]},
-  {title:"Trigonométrie — valeurs et formules",color:"#9b5de5",cols:["Formule","Résultat/Développement"],
-   rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a = 1−2sin²a"],["sin(2a)","2sinacosa"],["cos(π/2−x)","sin x"],["sin(π/2−x)","cos x"],["cos(−x)","cos x"],["sin(−x)","−sin x"]]},
-  {title:"Produit scalaire & géométrie",color:"#f72585",cols:["Résultat","Formule"],
-   rows:[["Produit scalaire (coord.)","u⃗·v⃗ = xx' + yy'"],["Norme","|u⃗|² = x²+y²"],["Perpendicularité","u⃗·v⃗ = 0"],["Al Kashi","a² = b² + c² − 2bc·cos(A)"],["Distance pt/droite","|axₐ+byₐ+c|/√(a²+b²)"],["Cercle","(x−a)²+(y−b)²=r²"],["|u⃗+v⃗|²","|u⃗|²+2u⃗·v⃗+|v⃗|²"]]},
-  {title:"Probabilités",color:"#ffd166",cols:["Résultat","Formule"],
-   rows:[["P(B|A)","P(A∩B)/P(A)"],["P(A∩B)","P(A)·P(B|A)"],["Probas totales","P(A) = Σ P(A|Bᵢ)·P(Bᵢ)"],["Indépendance","P(A∩B)=P(A)·P(B)"],["Formule de Bayes","P(A|B)=P(B|A)·P(A)/P(B)"]]},
+const recapTables=[
+  {title:"Dérivées",color:"#2a9d8f",cols:["f(x)","f'(x)"],rows:[["xⁿ","nxⁿ⁻¹"],["√x","1/(2√x)"],["1/x","−1/x²"],["eˣ","eˣ"],["ln x","1/x"],["sin x","cos x"],["cos x","−sin x"],["eᵘ","u'eᵘ"],["ln u","u'/u"],["sin u","u'cos u"],["cos u","−u'sin u"]]},
+  {title:"Second degré",color:"#e63946",cols:["Grandeur","Formule"],rows:[["Δ","b²−4ac"],["Racines (Δ>0)","(−b±√Δ)/2a"],["Double (Δ=0)","−b/2a"],["Canonique","a(x−α)²+β"],["x₁+x₂","−b/a"],["x₁×x₂","c/a"]]},
+  {title:"Loi binomiale",color:"#ef476f",cols:["Grandeur","Formule"],rows:[["P(X=k)","C(n,k)pᵏ(1−p)ⁿ⁻ᵏ"],["E(X)","np"],["V(X)","np(1−p)"],["σ(X)","√(np(1−p))"],["E(aX+b)","aE(X)+b"],["V(aX+b)","a²V(X)"]]},
+  {title:"Trigonométrie",color:"#9b5de5",cols:["Formule","Résultat"],rows:[["cos²x+sin²x","1"],["cos(a+b)","cosacosb−sinasinb"],["sin(a+b)","sinacosb+cosasinb"],["cos(2a)","cos²a−sin²a"],["sin(2a)","2sinacosa"]]},
+  {title:"Suites",color:"#f4a261",cols:["Type","Formule"],rows:[["Arith. terme","u₀+n·r"],["Arith. somme","(n+1)(u₀+uₙ)/2"],["Géom. terme","u₀·qⁿ"],["Géom. somme","u₀(1−qⁿ⁺¹)/(1−q)"]]},
 ];
 
-// ══════════════════════════════════
-// BUILD FLASHCARDS
-// ══════════════════════════════════
-const cats = [...new Set(flashcards.map(f=>f.cat))];
-const catColors = {
-  "Second degré":"#e63946","Suites":"#f4a261","Dérivation":"#2a9d8f",
-  "Exponentielle":"#4895ef","Trigonométrie":"#9b5de5","Produit scalaire":"#f72585",
-  "Géométrie":"#06d6a0","Probabilités":"#ffd166","Variables aléatoires":"#ef476f"
-};
-let activeCats = new Set(cats);
-let known=[], unknown=[], cidx=0, flipped=false;
-
-const filtersEl = document.getElementById('fc-filters');
-cats.forEach(cat => {
-  const b = document.createElement('button');
-  b.className='fc-filter on';
-  b.textContent=cat;
-  b.style.color=catColors[cat]||'#aaa';
-  b.style.borderColor=(catColors[cat]||'#aaa')+'55';
-  b.onclick=()=>{
-    if(activeCats.has(cat)){activeCats.delete(cat);b.classList.replace('on','off');}
-    else{activeCats.add(cat);b.classList.replace('off','on');}
-    resetCards();
-  };
-  filtersEl.appendChild(b);
-});
-
-function getFiltered(){return flashcards.filter(f=>activeCats.has(f.cat));}
-function getRemaining(){const f=getFiltered();return f.filter((_,i)=>!known.includes(flashcards.indexOf(f[i]))&&!unknown.includes(flashcards.indexOf(f[i])));}
-function updateStats(){const r=getRemaining();const tot=getFiltered().length;document.getElementById('fc-stats').textContent=`✅ ${known.length} sus  ·  ❌ ${unknown.length} à revoir  ·  🃏 ${r.length} / ${tot}`;}
-
-function showCard(){
-  const rem=getRemaining();
-  if(!rem.length){
-    document.getElementById('fc-card').style.display='none';
-    document.getElementById('fc-actions').classList.remove('show');
-    document.getElementById('fc-done').classList.add('show');
-    document.getElementById('fc-done-sub').textContent=`${known.length} mémorisées · ${unknown.length} à retravailler`;
-    return;
-  }
-  document.getElementById('fc-card').style.display='';
-  document.getElementById('fc-done').classList.remove('show');
-  const cur=rem[cidx%rem.length];
-  const tot=getFiltered().length; const seen=known.length+unknown.length;
-  document.getElementById('fc-prog-bar').style.width=Math.round(seen/tot*100)+'%';
-  document.getElementById('fc-progress').textContent=`Carte ${cidx%rem.length+1} / ${rem.length}`;
-  const card=document.getElementById('fc-card');
-  card.classList.remove('flipped');
-  document.getElementById('fc-side').textContent='Question';
-  document.getElementById('fc-text').textContent=cur.q;
-  document.getElementById('fc-cat').textContent=cur.cat;
-  document.getElementById('fc-cat').style.color=catColors[cur.cat]||'#aaa';
-  document.getElementById('fc-hint').style.display='';
-  document.getElementById('fc-actions').classList.remove('show');
-  flipped=false;
-}
-function flipCard(){
-  if(flipped)return;const rem=getRemaining();if(!rem.length)return;
-  const cur=rem[cidx%rem.length];flipped=true;
-  document.getElementById('fc-card').classList.add('flipped');
-  document.getElementById('fc-side').textContent='Réponse';
-  document.getElementById('fc-text').textContent=cur.a;
-  document.getElementById('fc-hint').style.display='none';
-  document.getElementById('fc-actions').classList.add('show');
-}
-function nextCard(ok){
-  const rem=getRemaining();const idx=flashcards.indexOf(rem[cidx%rem.length]);
-  if(ok)known.push(idx);else unknown.push(idx);
-  cidx++;updateStats();showCard();
-}
-function resetCards(){
-  known=[];unknown=[];cidx=0;flipped=false;
-  document.getElementById('fc-card').style.display='';
-  document.getElementById('fc-done').classList.remove('show');
-  updateStats();showCard();
-}
-
-// ══════════════════════════════════
-// BUILD RECAP TABLES
-// ══════════════════════════════════
-const recapGrid=document.getElementById('recap-grid');
-recapTables.forEach(t=>{
-  const block=document.createElement('div');block.className='recap-block';
-  const head=document.createElement('div');head.className='recap-head';
-  head.style.cssText=`background:${t.color}18;border:1px solid ${t.color}44;color:${t.color}`;
-  head.innerHTML=`<span>${t.title}</span><span style="font-size:11px;opacity:.5;font-weight:400">${t.rows.length} formules</span>`;
-  const tbl=document.createElement('table');tbl.className='recap-tbl';
-  tbl.style.border=`1px solid ${t.color}22`;
-  const htr=document.createElement('tr');htr.className='hdr';
-  t.cols.forEach(c=>{const td=document.createElement('td');td.textContent=c;htr.appendChild(td)});
-  tbl.appendChild(htr);
-  t.rows.forEach((row,ri)=>{
-    const tr=document.createElement('tr');if(ri%2===1)tr.className='even';
-    row.forEach(cell=>{const td=document.createElement('td');td.textContent=cell;tr.appendChild(td)});
-    tbl.appendChild(tr);
-  });
-  block.appendChild(head);block.appendChild(tbl);recapGrid.appendChild(block);
-});
-
-// ══════════════════════════════════
-// TABS
-// ══════════════════════════════════
-function showTab(id,btn){
-  document.querySelectorAll('.tab-section').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  btn.classList.add('active');
-}
-
-// Init flashcards
-updateStats();showCard();;
-
-// ═══ RENDER TOC ═══
-const toc = document.getElementById('toc');
-chapters.forEach(ch => {
-  const btn = document.createElement('button');
-  btn.className = 'toc-item';
-  btn.innerHTML = `<span style="width:24px;height:24px;border-radius:6px;background:${ch.color}22;border:1px solid ${ch.color}55;color:${ch.color};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">${ch.icon}</span><span style="color:#bbb">Ch.${ch.id} — ${ch.title}</span>`;
-  btn.onclick = () => document.getElementById('ch'+ch.id).scrollIntoView({behavior:'smooth'});
-  toc.appendChild(btn);
-});
-
-// ═══ RENDER CHAPTERS ═══
-const main = document.getElementById('main');
-chapters.forEach(ch => {
-  const wrap = document.createElement('div');
-  wrap.className = 'chapter';
-  wrap.id = 'ch' + ch.id;
-
-  wrap.innerHTML = `<div class="ch-header">
-    <div class="ch-icon" style="background:${ch.color}18;border:1.5px solid ${ch.color};color:${ch.color}">${ch.icon}</div>
-    <div>
-      <div class="ch-title">Ch.${ch.id} — ${ch.title}</div>
-      <div class="ch-desc">${ch.tag}</div>
-    </div>
-  </div>`;
-
-  const sectionsDiv = document.createElement('div');
-  sectionsDiv.className = 'sections';
-
-  ch.sections.forEach((sec, si) => {
-    const sDiv = document.createElement('div');
-    sDiv.className = 'section';
-
-    const hdr = document.createElement('div');
-    hdr.className = 'sec-header';
-    hdr.innerHTML = `<span class="sec-title">▸ ${sec.title}</span><span class="sec-tag">${sec.tag}</span>`;
-
-    const body = document.createElement('div');
-    body.className = 'sec-body';
-    body.style.borderLeftColor = ch.color;
-    body.style.borderLeftWidth = '3px';
-    body.style.borderLeftStyle = 'solid';
-
-    sec.boxes.forEach(box => {
-      if(box.type === 'svg_cercle') {
-        const svgDiv = document.createElement('div');
-        svgDiv.style.cssText = 'margin-top:10px;background:#0a0a0f;border-radius:10px;padding:12px';
-        svgDiv.innerHTML = `<h3>Cercle trigonométrique</h3>
-  <p class="sub">cos(x) = abscisse · sin(x) = ordonnée · sens + = antihoraire</p>
-
-  <!-- SVG 700×700 viewBox — beaucoup d'espace pour éviter tout chevauchement -->
-  <svg viewBox="-300 -300 600 600" width="100%" style="max-width:700px;display:block;margin:0 auto">
-    <rect x="-300" y="-300" width="600" height="600" fill="#0a0a0f"/>
-
-    <!-- Grille -->
-    <circle cx="0" cy="0" r="140" fill="none" stroke="#18182a" stroke-width="1.5"/>
-
-    <!-- Axes -->
-    <line x1="-200" y1="0" x2="200" y2="0" stroke="#252535" stroke-width="1.5"/>
-    <line x1="0" y1="-200" x2="0" y2="200" stroke="#252535" stroke-width="1.5"/>
-    <polygon points="200,0 193,-4 193,4" fill="#333"/>
-    <polygon points="0,-200 -4,-193 4,-193" fill="#333"/>
-    <text x="207" y="5" fill="#444" font-size="11">x</text>
-    <text x="5" y="-203" fill="#444" font-size="11">y</text>
-    <text x="-12" y="14" fill="#444" font-size="10">O</text>
-
-    <!-- Marques ±1 -->
-    <text x="143" y="14" fill="#333" font-size="9">1</text>
-    <text x="-165" y="14" fill="#333" font-size="9">−1</text>
-    <text x="4" y="-143" fill="#333" font-size="9">1</text>
-    <text x="4" y="158" fill="#333" font-size="9">−1</text>
-
-    <!-- Cercle -->
-    <circle cx="0" cy="0" r="140" fill="none" stroke="#2a2a4a" stroke-width="2.5"/>
-
-    <!-- Sens direct -->
-    <path d="M 28 0 A 28 28 0 0 0 20 -20" fill="none" stroke="#4895ef" stroke-width="1.5" marker-end="url(#arr)"/>
-    <defs>
-      <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-        <path d="M0,0 L6,3 L0,6 Z" fill="#4895ef"/>
-      </marker>
-    </defs>
-    <text x="32" y="-22" fill="#4895ef" font-size="9">sens +</text>
-
-    <!-- ═══════════════════════════════
-         POINTS — rayon 140px
-         cos*140, -sin*140 (SVG y inversé)
-         ═══════════════════════════════ -->
-
-    <!-- 0° → (140, 0) -->
-    <line x1="0" y1="0" x2="140" y2="0" stroke="#4895ef" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="140" cy="0" r="5" fill="#4895ef"/>
-    <text x="148" y="-10" fill="#4895ef" font-size="12" font-weight="bold">0</text>
-    <text x="148" y="3" fill="#666" font-size="9">(1 ; 0)</text>
-
-    <!-- π/6 = 30° → cos=√3/2≈0.866 sin=0.5 → (121, -70) -->
-    <line x1="0" y1="0" x2="121" y2="-70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="121" cy="-70" r="4" fill="#9b5de5"/>
-    <text x="129" y="-76" fill="#9b5de5" font-size="11" font-weight="bold">π/6</text>
-    <text x="129" y="-64" fill="#666" font-size="9">(√3/2 ; ½)</text>
-
-    <!-- π/4 = 45° → (99, -99) -->
-    <line x1="0" y1="0" x2="99" y2="-99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="99" cy="-99" r="4" fill="#f72585"/>
-    <text x="106" y="-106" fill="#f72585" font-size="11" font-weight="bold">π/4</text>
-    <text x="106" y="-94" fill="#666" font-size="9">(√2/2 ; √2/2)</text>
-
-    <!-- π/3 = 60° → cos=0.5 sin=√3/2≈0.866 → (70, -121) -->
-    <line x1="0" y1="0" x2="70" y2="-121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="70" cy="-121" r="4" fill="#06d6a0"/>
-    <text x="76" y="-130" fill="#06d6a0" font-size="11" font-weight="bold">π/3</text>
-    <text x="76" y="-118" fill="#666" font-size="9">(½ ; √3/2)</text>
-
-    <!-- π/2 = 90° → (0, -140) -->
-    <line x1="0" y1="0" x2="0" y2="-140" stroke="#ffd166" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="0" cy="-140" r="5" fill="#ffd166"/>
-    <text x="-52" y="-148" fill="#ffd166" font-size="12" font-weight="bold">π/2</text>
-    <text x="-42" y="-136" fill="#666" font-size="9">(0 ; 1)</text>
-
-    <!-- 2π/3 = 120° → (-70, -121) -->
-    <line x1="0" y1="0" x2="-70" y2="-121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="-70" cy="-121" r="4" fill="#06d6a0"/>
-    <text x="-130" y="-130" fill="#06d6a0" font-size="11" font-weight="bold">2π/3</text>
-    <text x="-145" y="-118" fill="#666" font-size="9">(−½;√3/2)</text>
-
-    <!-- 3π/4 = 135° → (-99, -99) -->
-    <line x1="0" y1="0" x2="-99" y2="-99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="-99" cy="-99" r="4" fill="#f72585"/>
-    <text x="-160" y="-106" fill="#f72585" font-size="11" font-weight="bold">3π/4</text>
-    <text x="-178" y="-94" fill="#666" font-size="9">(−√2/2;√2/2)</text>
-
-    <!-- 5π/6 = 150° → (-121, -70) -->
-    <line x1="0" y1="0" x2="-121" y2="-70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="-121" cy="-70" r="4" fill="#9b5de5"/>
-    <text x="-182" y="-76" fill="#9b5de5" font-size="11" font-weight="bold">5π/6</text>
-    <text x="-200" y="-64" fill="#666" font-size="9">(−√3/2;½)</text>
-
-    <!-- π = 180° → (-140, 0) -->
-    <circle cx="-140" cy="0" r="5" fill="#4895ef"/>
-    <text x="-185" y="-8" fill="#4895ef" font-size="12" font-weight="bold">π</text>
-    <text x="-185" y="4" fill="#666" font-size="9">(−1 ; 0)</text>
-
-    <!-- 7π/6 = 210° → (-121, 70) -->
-    <line x1="0" y1="0" x2="-121" y2="70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="-121" cy="70" r="4" fill="#9b5de5"/>
-    <text x="-182" y="66" fill="#9b5de5" font-size="11" font-weight="bold">7π/6</text>
-    <text x="-200" y="78" fill="#666" font-size="9">(−√3/2;−½)</text>
-
-    <!-- 5π/4 = 225° → (-99, 99) -->
-    <line x1="0" y1="0" x2="-99" y2="99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="-99" cy="99" r="4" fill="#f72585"/>
-    <text x="-160" y="94" fill="#f72585" font-size="11" font-weight="bold">5π/4</text>
-    <text x="-178" y="108" fill="#666" font-size="9">(−√2/2;−√2/2)</text>
-
-    <!-- 4π/3 = 240° → (-70, 121) -->
-    <line x1="0" y1="0" x2="-70" y2="121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="-70" cy="121" r="4" fill="#06d6a0"/>
-    <text x="-130" y="118" fill="#06d6a0" font-size="11" font-weight="bold">4π/3</text>
-    <text x="-145" y="132" fill="#666" font-size="9">(−½;−√3/2)</text>
-
-    <!-- 3π/2 = 270° → (0, 140) -->
-    <circle cx="0" cy="140" r="5" fill="#ffd166"/>
-    <text x="-54" y="136" fill="#ffd166" font-size="12" font-weight="bold">3π/2</text>
-    <text x="-42" y="150" fill="#666" font-size="9">(0 ; −1)</text>
-
-    <!-- 5π/3 = 300° → (70, 121) -->
-    <line x1="0" y1="0" x2="70" y2="121" stroke="#06d6a0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="70" cy="121" r="4" fill="#06d6a0"/>
-    <text x="76" y="118" fill="#06d6a0" font-size="11" font-weight="bold">5π/3</text>
-    <text x="76" y="132" fill="#666" font-size="9">(½;−√3/2)</text>
-
-    <!-- 7π/4 = 315° → (99, 99) -->
-    <line x1="0" y1="0" x2="99" y2="99" stroke="#f72585" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="99" cy="99" r="4" fill="#f72585"/>
-    <text x="106" y="94" fill="#f72585" font-size="11" font-weight="bold">7π/4</text>
-    <text x="106" y="108" fill="#666" font-size="9">(√2/2;−√2/2)</text>
-
-    <!-- 11π/6 = 330° → (121, 70) -->
-    <line x1="0" y1="0" x2="121" y2="70" stroke="#9b5de5" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.4"/>
-    <circle cx="121" cy="70" r="4" fill="#9b5de5"/>
-    <text x="129" y="64" fill="#9b5de5" font-size="11" font-weight="bold">11π/6</text>
-    <text x="129" y="78" fill="#666" font-size="9">(√3/2;−½)</text>
-
-    <!-- 2π = même que 0 — juste label -->
-    <text x="148" y="16" fill="#4895ef" font-size="9" opacity="0.5">= 2π</text>
-  </svg>
-
-  <!-- Tableau -->
-  <table class="tbl">
-    <thead>
-      <tr>
-        <th style="text-align:left;color:#666">x</th>
-        <th style="color:#4895ef">0</th>
-        <th style="color:#9b5de5">π/6</th>
-        <th style="color:#f72585">π/4</th>
-        <th style="color:#06d6a0">π/3</th>
-        <th style="color:#ffd166">π/2</th>
-        <th style="color:#4895ef">π</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="color:#e63946">cos(x)</td>
-        <td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td><td>−1</td>
-      </tr>
-      <tr>
-        <td style="color:#2a9d8f">sin(x)</td>
-        <td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td><td>0</td>
-      </tr>
-      <tr>
-        <td style="color:#f4a261">tan(x)</td>
-        <td>0</td><td>√3/3</td><td>1</td><td>√3</td><td style="color:#333">∄</td><td>0</td>
-      </tr>
-    </tbody>
-  </table>`;
-        body.appendChild(svgDiv);
-      } else if(box.type === 'table') {
-        const tbl = document.createElement('table');
-        tbl.className = 'formula-table';
-        tbl.style.marginTop = '6px';
-        const thead = document.createElement('thead');
-        const hrow = document.createElement('tr');
-        box.headers.forEach(h => {
-          const th = document.createElement('th');
-          th.textContent = h;
-          hrow.appendChild(th);
-        });
-        thead.appendChild(hrow);
-        tbl.appendChild(thead);
-        const tbody = document.createElement('tbody');
-        box.rows.forEach(row => {
-          const tr = document.createElement('tr');
-          row.forEach(cell => {
-            const td = document.createElement('td');
-            td.textContent = cell;
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-        tbl.appendChild(tbody);
-        body.appendChild(tbl);
-      } else {
-        const d = document.createElement('div');
-        const colorMap = {def:'var(--blue)',prop:'var(--teal)',warn:'var(--yellow)',method:'var(--orange)'};
-        d.className = box.type + '-box';
-        const lbl = document.createElement('div');
-        lbl.className = 'label';
-        lbl.style.background = colorMap[box.type] + '18';
-        lbl.style.color = colorMap[box.type];
-        lbl.style.borderColor = colorMap[box.type] + '44';
-        lbl.style.border = '1px solid';
-        const labelText = {def:'Définition',prop:'Propriété',warn:'⚠️ Attention',method:'Méthode'};
-        lbl.textContent = labelText[box.type];
-        d.appendChild(lbl);
-        const pre = document.createElement('div');
-        pre.style.cssText = 'font-family:JetBrains Mono,monospace;font-size:12px;line-height:1.9;white-space:pre-wrap';
-        pre.textContent = box.content;
-        d.appendChild(pre);
-        body.appendChild(d);
-      }
+function buildApp(){
+  // Chapters
+  const cl=document.getElementById('chapters-list');
+  chapters.forEach(ch=>{
+    const w=document.createElement('div');w.className='chapter';
+    w.dataset.kw=(ch.title+' '+ch.sections.map(s=>s.sub+' '+s.body).join(' ')).toLowerCase();
+    const b=document.createElement('button');b.className='chapter-btn';
+    b.innerHTML=`<span class="icon-box" style="background:${ch.color}1a;border:1.5px solid ${ch.color};color:${ch.color}">${ch.icon}</span><div class="ch-meta"><div class="ch-name">Ch.${ch.id} — ${ch.title}</div><div class="ch-tag">${ch.tag} · ${ch.sections.length} sections</div></div><span class="chevron" style="color:${ch.color}">›</span>`;
+    const bd=document.createElement('div');bd.className='chapter-body';bd.style.borderColor=ch.color+'33';
+    ch.sections.forEach(s=>{
+      const sd=document.createElement('div');sd.className='sec';
+      const sb=document.createElement('button');sb.className='sec-btn';
+      sb.innerHTML=`<span>▸ ${s.sub}</span><span class="sec-badge">afficher</span>`;
+      const sc=document.createElement('div');sc.className='sec-content';
+      sc.style.borderColor=ch.color+'44';sc.style.borderLeftColor=ch.color;sc.textContent=s.body;
+      sb.onclick=()=>{const o=sc.classList.toggle('open');sb.querySelector('.sec-badge').textContent=o?'masquer':'afficher';};
+      sd.appendChild(sb);sd.appendChild(sc);bd.appendChild(sd);
     });
-
-    hdr.onclick = () => {
-      const isOpen = body.classList.toggle('open');
-      hdr.querySelector('.sec-title').textContent = (isOpen ? '▾ ' : '▸ ') + sec.title;
-      sDiv.classList.toggle('active', isOpen);
-    };
-
-    sDiv.appendChild(hdr);
-    sDiv.appendChild(body);
-    sectionsDiv.appendChild(sDiv);
+    b.onclick=()=>{const o=b.classList.toggle('open');bd.classList.toggle('open',o);b.style.background=o?ch.color+'14':'';b.style.borderColor=o?ch.color:'rgba(255,255,255,0.07)';b.style.borderRadius=o?'14px 14px 0 0':'14px';};
+    w.appendChild(b);w.appendChild(bd);cl.appendChild(w);
   });
-
-  wrap.appendChild(sectionsDiv);
-  main.appendChild(wrap);
-});
-
-// ══════════════════════════════════
-// FLASHCARDS — 60 cartes
-// ══════════════════════════════════
-// ══════════════════════════════════
-// TABLEAUX DE FORMULES — 8 blocs
-// ══════════════════════════════════
-// ══════════════════════════════════
-// BUILD FLASHCARDS
-// ══════════════════════════════════
-const cats = [...new Set(flashcards.map(f=>f.cat))];
-const catColors = {
-  "Second degré":"#e63946","Suites":"#f4a261","Dérivation":"#2a9d8f",
-  "Exponentielle":"#4895ef","Trigonométrie":"#9b5de5","Produit scalaire":"#f72585",
-  "Géométrie":"#06d6a0","Probabilités":"#ffd166","Variables aléatoires":"#ef476f"
-};
-let activeCats = new Set(cats);
-let known=[], unknown=[], cidx=0, flipped=false;
-
-const filtersEl = document.getElementById('fc-filters');
-cats.forEach(cat => {
-  const b = document.createElement('button');
-  b.className='fc-filter on';
-  b.textContent=cat;
-  b.style.color=catColors[cat]||'#aaa';
-  b.style.borderColor=(catColors[cat]||'#aaa')+'55';
-  b.onclick=()=>{
-    if(activeCats.has(cat)){activeCats.delete(cat);b.classList.replace('on','off');}
-    else{activeCats.add(cat);b.classList.replace('off','on');}
-    resetCards();
-  };
-  filtersEl.appendChild(b);
-});
-
-function getFiltered(){return flashcards.filter(f=>activeCats.has(f.cat));}
-function getRemaining(){const f=getFiltered();return f.filter((_,i)=>!known.includes(flashcards.indexOf(f[i]))&&!unknown.includes(flashcards.indexOf(f[i])));}
-function updateStats(){const r=getRemaining();const tot=getFiltered().length;document.getElementById('fc-stats').textContent=`✅ ${known.length} sus  ·  ❌ ${unknown.length} à revoir  ·  🃏 ${r.length} / ${tot}`;}
-
-function showCard(){
-  const rem=getRemaining();
-  if(!rem.length){
-    document.getElementById('fc-card').style.display='none';
-    document.getElementById('fc-actions').classList.remove('show');
-    document.getElementById('fc-done').classList.add('show');
-    document.getElementById('fc-done-sub').textContent=`${known.length} mémorisées · ${unknown.length} à retravailler`;
-    return;
-  }
-  document.getElementById('fc-card').style.display='';
-  document.getElementById('fc-done').classList.remove('show');
-  const cur=rem[cidx%rem.length];
-  const tot=getFiltered().length; const seen=known.length+unknown.length;
-  document.getElementById('fc-prog-bar').style.width=Math.round(seen/tot*100)+'%';
-  document.getElementById('fc-progress').textContent=`Carte ${cidx%rem.length+1} / ${rem.length}`;
-  const card=document.getElementById('fc-card');
-  card.classList.remove('flipped');
-  document.getElementById('fc-side').textContent='Question';
-  document.getElementById('fc-text').textContent=cur.q;
-  document.getElementById('fc-cat').textContent=cur.cat;
-  document.getElementById('fc-cat').style.color=catColors[cur.cat]||'#aaa';
-  document.getElementById('fc-hint').style.display='';
-  document.getElementById('fc-actions').classList.remove('show');
-  flipped=false;
-}
-function flipCard(){
-  if(flipped)return;const rem=getRemaining();if(!rem.length)return;
-  const cur=rem[cidx%rem.length];flipped=true;
-  document.getElementById('fc-card').classList.add('flipped');
-  document.getElementById('fc-side').textContent='Réponse';
-  document.getElementById('fc-text').textContent=cur.a;
-  document.getElementById('fc-hint').style.display='none';
-  document.getElementById('fc-actions').classList.add('show');
-}
-function nextCard(ok){
-  const rem=getRemaining();const idx=flashcards.indexOf(rem[cidx%rem.length]);
-  if(ok)known.push(idx);else unknown.push(idx);
-  cidx++;updateStats();showCard();
-}
-function resetCards(){
-  known=[];unknown=[];cidx=0;flipped=false;
-  document.getElementById('fc-card').style.display='';
-  document.getElementById('fc-done').classList.remove('show');
-  updateStats();showCard();
-}
-
-// ══════════════════════════════════
-// BUILD RECAP TABLES
-// ══════════════════════════════════
-const recapGrid=document.getElementById('recap-grid');
-recapTables.forEach(t=>{
-  const block=document.createElement('div');block.className='recap-block';
-  const head=document.createElement('div');head.className='recap-head';
-  head.style.cssText=`background:${t.color}18;border:1px solid ${t.color}44;color:${t.color}`;
-  head.innerHTML=`<span>${t.title}</span><span style="font-size:11px;opacity:.5;font-weight:400">${t.rows.length} formules</span>`;
-  const tbl=document.createElement('table');tbl.className='recap-tbl';
-  tbl.style.border=`1px solid ${t.color}22`;
-  const htr=document.createElement('tr');htr.className='hdr';
-  t.cols.forEach(c=>{const td=document.createElement('td');td.textContent=c;htr.appendChild(td)});
-  tbl.appendChild(htr);
-  t.rows.forEach((row,ri)=>{
-    const tr=document.createElement('tr');if(ri%2===1)tr.className='even';
-    row.forEach(cell=>{const td=document.createElement('td');td.textContent=cell;tr.appendChild(td)});
-    tbl.appendChild(tr);
+  // Recap
+  const rg=document.getElementById('recap-grid');
+  recapTables.forEach(t=>{
+    const bl=document.createElement('div');bl.className='recap-block';
+    const h=document.createElement('div');h.className='recap-head';
+    h.style.cssText=`background:${t.color}1a;border:1px solid ${t.color}55;color:${t.color}`;h.textContent=t.title;
+    const tb=document.createElement('table');tb.className='recap-tbl';tb.style.border=`1px solid ${t.color}22`;
+    const hr=document.createElement('tr');hr.className='hdr';
+    t.cols.forEach(c=>{const td=document.createElement('td');td.textContent=c;hr.appendChild(td)});tb.appendChild(hr);
+    t.rows.forEach((row,ri)=>{
+      const tr=document.createElement('tr');if(ri%2===1)tr.className='even';
+      row.forEach(c=>{const td=document.createElement('td');td.textContent=c;tr.appendChild(td)});tb.appendChild(tr);
+    });
+    bl.appendChild(h);bl.appendChild(tb);rg.appendChild(bl);
   });
-  block.appendChild(head);block.appendChild(tbl);recapGrid.appendChild(block);
-});
-
-// ══════════════════════════════════
-// TABS
-// ══════════════════════════════════
-
-
-// Init flashcards
-updateStats();showCard();
-
-
+  resetCards();
 }
 
 function filterChapters(q){
@@ -2374,7 +1814,7 @@ function nextCard(ok){
   if(ok)known.push(idx);else unknown.push(idx);cidx++;updateStats();showCard();
 }
 function resetCards(){known=[];unknown=[];cidx=0;flipped=false;document.getElementById('fc-card').style.display='';document.getElementById('fc-done').classList.remove('show');updateStats();showCard();}
-
+function showTab(id,btn){document.querySelectorAll('.tab-section').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
 </script>
 </body>
 </html>
