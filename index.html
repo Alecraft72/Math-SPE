@@ -1425,28 +1425,82 @@ async function tryLogin() {
   const code = document.getElementById('code-input').value.trim();
   if(!code || code.length < 6) { showErr('Entre un code à 6 chiffres.'); return; }
 
+  // ── ADMIN : vérification locale immédiate ──
+  if(ADMIN_CODES.has(code)) {
+    const now = new Date().toLocaleString('fr-FR', {timeZone:'Europe/Paris'});
+    sendTelegram('👑 Connexion ADMIN\nCode: <code>'+code+'</code>\nDate: '+now);
+    launchApp(code, false, true);
+    return;
+  }
+
+  // ── Vérifier si code existe dans ALL_CODES ──
+  if(!ALL_CODES.has(code)) {
+    showErr('Code incorrect ou déjà utilisé.');
+    shake();
+    return;
+  }
+
   document.querySelector('.login-btn').textContent = 'Vérification…';
   document.querySelector('.login-btn').disabled = true;
 
   const bid = getBrowserId();
-  const result = await checkCode(code, bid);
+
+  // ── Vérifier d'abord en local ──
+  const localBind = localStorage.getItem('bind_'+code);
+  if(localBind && localBind === bid) {
+    // Déjà connecté sur cet appareil — accès direct
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
+    document.querySelector('.login-btn').textContent = 'Accéder →';
+    document.querySelector('.login-btn').disabled = false;
+    launchApp(code, false, false);
+    return;
+  }
+
+  // ── Appel backend Vercel avec timeout ──
+  let result = null;
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const resp = await fetch(BACKEND_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({code, browserId:bid}),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    result = await resp.json();
+  } catch(e) {
+    // Timeout ou erreur réseau — fallback local
+    result = null;
+  }
 
   document.querySelector('.login-btn').textContent = 'Accéder →';
   document.querySelector('.login-btn').disabled = false;
 
+  if(!result) {
+    // Fallback : utiliser localStorage seulement
+    const existing = localStorage.getItem('bind_'+code);
+    if(existing && existing !== bid) {
+      showErr('Ce code est déjà utilisé sur un autre appareil.');
+      shake();
+      return;
+    }
+    localStorage.setItem('bind_'+code, bid);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
+    launchApp(code, !existing, false);
+    return;
+  }
+
   if(!result.success) {
     if(result.reason === 'used') showErr('Ce code est déjà utilisé sur un autre appareil.');
-    else if(result.reason === 'network') showErr('Erreur réseau, réessaie.');
     else showErr('Code incorrect ou déjà utilisé.');
     shake();
     return;
   }
 
-  if(result.type !== 'admin') {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
-  }
-
-  launchApp(code, result.isNew, result.type === 'admin');
+  localStorage.setItem('bind_'+code, bid);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({code}));
+  launchApp(code, result.isNew, false);
 }
 
 function showErr(msg) { document.getElementById('login-error').textContent = msg; }
