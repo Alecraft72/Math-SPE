@@ -1676,34 +1676,52 @@ chapters.forEach(ch => {
     <text x="148" y="16" fill="#4895ef" font-size="9" opacity="0.5">= 2π</text>
   </svg>
 
-  <!-- Tableau -->
-  <table class="tbl">
-    <thead>
-      <tr>
-        <th style="text-align:left;color:#666">x</th>
-        <th style="color:#4895ef">0</th>
-        <th style="color:#9b5de5">π/6</th>
-        <th style="color:#f72585">π/4</th>
-        <th style="color:#06d6a0">π/3</th>
-        <th style="color:#ffd166">π/2</th>
-        <th style="color:#4895ef">π</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="color:#e63946">cos(x)</td>
-        <td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td><td>−1</td>
-      </tr>
-      <tr>
-        <td style="color:#2a9d8f">sin(x)</td>
-        <td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td><td>0</td>
-      </tr>
-      <tr>
-        <td style="color:#f4a261">tan(x)</td>
-        <td>0</td><td>√3/3</td><td>1</td><td>√3</td><td style="color:#333">∄</td><td>0</td>
-      </tr>
-    </tbody>
-  </table>`;
+  <!-- Tableau valeurs remarquables -->
+  <div style="margin-top:20px;border-radius:14px;overflow:hidden;border:1.5px solid rgba(255,255,255,0.1)">
+    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:11px 16px;font-size:10px;font-weight:800;color:#fff;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.08)">📐 Valeurs remarquables</div>
+    <table style="width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:12px;background:#0d0d18">
+      <thead>
+        <tr style="background:rgba(255,255,255,0.05)">
+          <th style="padding:9px 12px;text-align:left;color:#444;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.07);border-right:1px solid rgba(255,255,255,0.07)">x</th>
+          <th style="padding:9px 12px;text-align:center;color:#4895ef;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.07);border-right:1px solid rgba(255,255,255,0.05)">0</th>
+          <th style="padding:9px 12px;text-align:center;color:#9b5de5;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.07);border-right:1px solid rgba(255,255,255,0.05)">π/6</th>
+          <th style="padding:9px 12px;text-align:center;color:#f72585;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.07);border-right:1px solid rgba(255,255,255,0.05)">π/4</th>
+          <th style="padding:9px 12px;text-align:center;color:#06d6a0;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.07);border-right:1px solid rgba(255,255,255,0.05)">π/3</th>
+          <th style="padding:9px 12px;text-align:center;color:#ffd166;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.07);border-right:1px solid rgba(255,255,255,0.05)">π/2</th>
+          <th style="padding:9px 12px;text-align:center;color:#4895ef;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.07)">π</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:10px 12px;color:#e63946;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.07)">cos(x)</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">1</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">√3/2</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">√2/2</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">1/2</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">0</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05)">−1</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px;color:#2a9d8f;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.07)">sin(x)</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">0</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">1/2</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">√2/2</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">√3/2</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05)">1</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-bottom:1px solid rgba(255,255,255,0.05)">0</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px;color:#f4a261;font-weight:800;border-right:1px solid rgba(255,255,255,0.07)">tan(x)</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-right:1px solid rgba(255,255,255,0.05)">0</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-right:1px solid rgba(255,255,255,0.05)">√3/3</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-right:1px solid rgba(255,255,255,0.05)">1</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da;border-right:1px solid rgba(255,255,255,0.05)">√3</td>
+          <td style="padding:10px 12px;text-align:center;color:#444;border-right:1px solid rgba(255,255,255,0.05)">∄</td>
+          <td style="padding:10px 12px;text-align:center;color:#e8e4da">0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>`;
         body.appendChild(svgDiv);
       } else if(box.type === 'table') {
         const tbl = document.createElement('table');
